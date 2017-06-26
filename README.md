@@ -5,3 +5,4 @@
   - Senzor de umiditate 2: căpșuni în spatele casei
   - Senzor de nivel
 - Api date de la senzori/porturi
+- Studiere interfata senzori
