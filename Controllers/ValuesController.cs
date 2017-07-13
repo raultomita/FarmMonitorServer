@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using StackExchange.Redis;
 
 namespace FarmMonitorServer.Controllers
 {
@@ -20,6 +21,8 @@ namespace FarmMonitorServer.Controllers
         [HttpGet("{id}")]
         public string Get(int id)
         {
+            ISubscriber sub = Program.redis.GetSubscriber();
+            sub.Publish("commands", "hello");
             return "value";
         }
 
@@ -27,6 +30,7 @@ namespace FarmMonitorServer.Controllers
         [HttpPost]
         public void Post([FromBody]string value)
         {
+            
         }
 
         // PUT api/values/5
