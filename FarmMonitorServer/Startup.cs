@@ -16,7 +16,9 @@ namespace FarmMonitorServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<ConnectionMultiplexer>(s=> ConnectionMultiplexer.Connect("192.168.1.200"));
+            services.AddSingleton(s=> ConnectionMultiplexer.Connect("192.168.1.200"));
+            services.AddLogging(l => l.AddConsole());
+            
             services.AddMvc();
         }
 
