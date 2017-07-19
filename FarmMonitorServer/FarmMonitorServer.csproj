@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <UserSecretsId>aspnet-FarmMonitorServer-D744E1DF-3B51-431B-A695-5D42E49933F5</UserSecretsId>
+    <Configurations>Debug;Release;RaspberryPi</Configurations>
   </PropertyGroup>
 
   <ItemGroup>

@@ -8,11 +8,14 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		RaspberryPi|Any CPU = RaspberryPi|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{9A1D4121-3A0D-4BCA-9422-11E6E6905713}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9A1D4121-3A0D-4BCA-9422-11E6E6905713}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A1D4121-3A0D-4BCA-9422-11E6E6905713}.RaspberryPi|Any CPU.ActiveCfg = RaspberryPi|Any CPU
+		{9A1D4121-3A0D-4BCA-9422-11E6E6905713}.RaspberryPi|Any CPU.Build.0 = RaspberryPi|Any CPU
 		{9A1D4121-3A0D-4BCA-9422-11E6E6905713}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A1D4121-3A0D-4BCA-9422-11E6E6905713}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
