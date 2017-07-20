@@ -29,7 +29,6 @@ Obj/
 # Visual Studio 2015 cache/options directory
 .vs/
 /wwwroot/dist/
-/ClientApp/dist/
 
 /yarn.lock
 
@@ -235,8 +234,3 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
-
-FarmMonitorServer/node_modules/*
-FarmMonitorServer/wwwroot/*
-!FarmMonitorServer/wwwroot/sandstome.min.css
-!FarmMonitorServer/wwwroot/local.css

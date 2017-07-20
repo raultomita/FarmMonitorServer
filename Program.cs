@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 namespace FarmMonitorServer
 {
     public class Program
-    { 
+    {
         public static void Main(string[] args)
         {
             BuildWebHost(args).Run();
@@ -19,7 +19,6 @@ namespace FarmMonitorServer
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseStartup<Startup>()
                 .Build();
     }
