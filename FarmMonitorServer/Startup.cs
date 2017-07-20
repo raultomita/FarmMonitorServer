@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using StackExchange.Redis;
+using System.IO;
+using Microsoft.Extensions.FileProviders;
 
 namespace FarmMonitorServer
 {
@@ -25,6 +27,11 @@ namespace FarmMonitorServer
         {
             app.UseWebSockets();
             app.UseMvc();
+            app.UseStaticFiles();
+            app.UseDefaultFiles(new DefaultFilesOptions()
+            {
+                DefaultFileNames = new[] { "Index.html"}
+            });
         }
     }
 }

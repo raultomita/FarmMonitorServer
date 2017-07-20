@@ -8,23 +8,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="dist\**" />
-    <Compile Remove="wwwroot\**" />
-    <Content Remove="dist\**" />
-    <Content Remove="wwwroot\**" />
-    <EmbeddedResource Remove="dist\**" />
-    <EmbeddedResource Remove="wwwroot\**" />
-    <None Remove="dist\**" />
-    <None Remove="wwwroot\**" />
+    <Compile Remove="wwwroot\components\**" />
+    <Content Remove="wwwroot\components\**" />
+    <EmbeddedResource Remove="wwwroot\components\**" />
+    <None Remove="wwwroot\components\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\bundle.js" />
+    <Content Remove="wwwroot\bundle.js.map" />
+    <Content Remove="wwwroot\index.js" />
+    <Content Remove="wwwroot\index.js.map" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove=".gitignore" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="dist\local.css" />
-    <Content Include="dist\sandstome.min.css" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,6 +32,10 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0-preview2-final" />
     <PackageReference Include="Microsoft.AspNetCore.WebSockets" Version="2.0.0-preview2-final" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
 </Project>
