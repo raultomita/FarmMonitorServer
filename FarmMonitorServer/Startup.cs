@@ -18,7 +18,7 @@ namespace FarmMonitorServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton(s=> ConnectionMultiplexer.Connect("192.168.1.200"));            
+            services.AddSingleton(s=> ConnectionMultiplexer.Connect("192.168.1.200"));
             services.AddMvc();
         }
 
@@ -27,11 +27,8 @@ namespace FarmMonitorServer
         {
             app.UseWebSockets();
             app.UseMvc();
+            app.UseDefaultFiles();
             app.UseStaticFiles();
-            app.UseDefaultFiles(new DefaultFilesOptions()
-            {
-                DefaultFileNames = new[] { "Index.html"}
-            });
         }
     }
 }

@@ -17,8 +17,12 @@
   <ItemGroup>
     <Content Remove="wwwroot\bundle.js" />
     <Content Remove="wwwroot\bundle.js.map" />
+    <Content Remove="wwwroot\index.bundle.js" />
+    <Content Remove="wwwroot\index.bundle.js.map" />
     <Content Remove="wwwroot\index.js" />
     <Content Remove="wwwroot\index.js.map" />
+    <Content Remove="wwwroot\vendor.bundle.js" />
+    <Content Remove="wwwroot\vendor.bundle.js.map" />
   </ItemGroup>
 
   <ItemGroup>
