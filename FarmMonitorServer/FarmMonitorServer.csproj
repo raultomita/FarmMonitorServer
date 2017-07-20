@@ -4,10 +4,27 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <UserSecretsId>aspnet-FarmMonitorServer-D744E1DF-3B51-431B-A695-5D42E49933F5</UserSecretsId>
     <Configurations>Debug;Release;RaspberryPi</Configurations>
+    <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <Compile Remove="dist\**" />
+    <Compile Remove="wwwroot\**" />
+    <Content Remove="dist\**" />
+    <Content Remove="wwwroot\**" />
+    <EmbeddedResource Remove="dist\**" />
+    <EmbeddedResource Remove="wwwroot\**" />
+    <None Remove="dist\**" />
+    <None Remove="wwwroot\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove=".gitignore" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="dist\local.css" />
+    <Content Include="dist\sandstome.min.css" />
   </ItemGroup>
 
   <ItemGroup>

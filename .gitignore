@@ -235,3 +235,8 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
+
+FarmMonitorServer/node_modules/*
+FarmMonitorServer/dist/*
+!FarmMonitorServer/dist/sandstome.min.css
+!FarmMonitorServer/dist/local.css
