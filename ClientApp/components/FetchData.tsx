@@ -11,7 +11,7 @@ export class FetchData extends React.Component<{}, FetchDataExampleState> {
         super();
         this.state = { forecasts: [], loading: true };
 
-        fetch('/api/SampleData/WeatherForecasts')
+        fetch('/api/devices')
             .then(response => response.json() as Promise<WeatherForecast[]>)
             .then(data => {
                 this.setState({ forecasts: data, loading: false });
@@ -26,7 +26,7 @@ export class FetchData extends React.Component<{}, FetchDataExampleState> {
         return <div>
             <h1>Weather forecast</h1>
             <p>This component demonstrates fetching data from the server.</p>
-            { contents }
+            {contents}
         </div>;
     }
 
@@ -34,29 +34,24 @@ export class FetchData extends React.Component<{}, FetchDataExampleState> {
         return <table className='table'>
             <thead>
                 <tr>
-                    <th>Date</th>
-                    <th>Temp. (C)</th>
-                    <th>Temp. (F)</th>
-                    <th>Summary</th>
+                    <th>Type</th>
+                    <th>Timestamp</th>
                 </tr>
             </thead>
             <tbody>
-            {forecasts.map(forecast =>
-                <tr key={ forecast.dateFormatted }>
-                    <td>{ forecast.dateFormatted }</td>
-                    <td>{ forecast.temperatureC }</td>
-                    <td>{ forecast.temperatureF }</td>
-                    <td>{ forecast.summary }</td>
-                </tr>
-            )}
+                {forecasts.map(forecast =>
+                    <tr key={forecast.id}>
+                        <td>{forecast.type}</td>
+                        <td>{forecast.timestamp}</td>
+                    </tr>
+                )}
             </tbody>
         </table>;
     }
 }
 
 interface WeatherForecast {
-    dateFormatted: string;
-    temperatureC: number;
-    temperatureF: number;
-    summary: string;
+    id: string;
+    type: string;
+    timestamp: string;
 }

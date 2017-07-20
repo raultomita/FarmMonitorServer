@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 
 namespace FarmMonitorServer.Controllers
 {
@@ -25,10 +26,11 @@ namespace FarmMonitorServer.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<string> Get()
-        {
+        public IEnumerable<object> Get()
+        {          
             var devices = database.HashGetAll(HashKey);
-            return devices.Select(device => (string)device.Value);
+            return devices.Select(device => Newtonsoft.Json.JsonConvert.DeserializeObject((string)device.Value));
+            
         }
                 
         [HttpPut("{id}")]
