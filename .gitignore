@@ -237,6 +237,6 @@ _Pvt_Extensions
 .fake/
 
 FarmMonitorServer/node_modules/*
-FarmMonitorServer/dist/*
-!FarmMonitorServer/dist/sandstome.min.css
-!FarmMonitorServer/dist/local.css
+FarmMonitorServer/wwwroot/*
+!FarmMonitorServer/wwwroot/sandstome.min.css
+!FarmMonitorServer/wwwroot/local.css
