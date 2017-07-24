@@ -10,6 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Deployment\publish\**" />
+    <Content Remove="Deployment\publish\**" />
+    <EmbeddedResource Remove="Deployment\publish\**" />
+    <None Remove="Deployment\publish\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="wwwroot\dist\89889688147bd7575d6327160d64e760.svg" />
     <Content Remove="wwwroot\dist\main.js" />
     <Content Remove="wwwroot\dist\main.js.map" />
