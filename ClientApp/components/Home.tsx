@@ -37,7 +37,7 @@ export class Home extends React.Component<{}, HomeState> {
 }
 
 
-interface Device {
+export interface Device {
     id: string;
     type: string;
     timestamp: string;

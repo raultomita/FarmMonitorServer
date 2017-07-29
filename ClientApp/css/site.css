@@ -64,3 +64,9 @@
         text-overflow: ellipsis;
     }
 }
+
+.notificationHeader {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: right;
+}

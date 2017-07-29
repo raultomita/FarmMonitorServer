@@ -26,10 +26,10 @@ namespace FarmMonitorServer.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<object> Get()
+        public IActionResult Get()
         {          
             var devices = database.HashGetAll(HashKey);
-            return devices.Select(device => Newtonsoft.Json.JsonConvert.DeserializeObject((string)device.Value));
+            return Content($"[{string.Join(", ", devices.Select(entry => entry.Value))}]");
             
         }
                 
