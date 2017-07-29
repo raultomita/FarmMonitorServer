@@ -4,6 +4,7 @@ using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace FarmMonitorServer.Controllers
 {
@@ -29,7 +30,7 @@ namespace FarmMonitorServer.Controllers
         public IActionResult Get()
         {          
             var devices = database.HashGetAll(HashKey);
-            return Content($"[{string.Join(", ", devices.Select(entry => entry.Value))}]");
+            return Content($"[{string.Join(", ", devices.Select(entry => entry.Value))}]", "application/json");
             
         }
                 

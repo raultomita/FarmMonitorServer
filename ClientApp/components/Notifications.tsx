@@ -1,12 +1,16 @@
 ﻿import * as React from 'react';
 import { Device } from './Home';
 
+interface NotificationsProps {
+    onDeviceReceived: (device: Device) => void; 
+}
+
 interface NotificationsState {
     isConnected: boolean;
     status: string;
 }
 
-export class Notifications extends React.Component<{}, NotificationsState> {
+export class Notifications extends React.Component<NotificationsProps, NotificationsState> {
     constructor() {
         super();
         this.state = {
@@ -60,9 +64,8 @@ export class Notifications extends React.Component<{}, NotificationsState> {
         };
 
         socket.onmessage = function (event) {
-
-            let notification = event.data.json() as Promise<Device> ;
-
+            let deviceData = JSON.parse(event.data) as Device;
+            notificationsWidget.props.onDeviceReceived(deviceData);
         };
     }
 }

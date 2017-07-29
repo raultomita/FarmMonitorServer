@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { DeviceHeader } from './devices/deviceHeader';
+import { Notifications } from './Notifications';
 
 interface HomeState {
     devices: Device[];
@@ -9,27 +11,29 @@ export class Home extends React.Component<{}, HomeState> {
     constructor() {
         super();
         this.state = { devices: [], loading: true };
-
+        this.updateDevice = this.updateDevice.bind(this);
         fetch('/api/devices')
             .then(response => response.json() as Promise<Device[]>)
             .then(data => {
                 this.setState({ devices: data, loading: false });
             });
     }
+
+    updateDevice(device: Device) {
+        this.setState({devices: [device]})
+    }
+
     public render() {
         let contents = this.state.loading
             ? <p><em>Loading...</em></p>
             : <div>
-                {this.state.devices.map(forecast =>
-                    <tr key={forecast.id}>
-                        <td>{forecast.type}</td>
-                        <td>{forecast.timestamp}</td>
-                    </tr>
+                {this.state.devices.map(device =>                 
+                    <DeviceHeader {...device} />
                 )}
             </div>;
 
         return <div>
-            <h1>Devices</h1>            
+            <Notifications onDeviceReceived={this.updateDevice} />
             {contents}
         </div>;
         
@@ -40,5 +44,7 @@ export class Home extends React.Component<{}, HomeState> {
 export interface Device {
     id: string;
     type: string;
-    timestamp: string;
+    timeStamp: string;
+    [typeProp: string]: any;
+
 }
