@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { DeviceHeader } from './devices/deviceHeader';
+import { DeviceSelector } from './devices/deviceSelector';
 import { Notifications } from './Notifications';
 
 interface HomeState {
@@ -20,15 +20,18 @@ export class Home extends React.Component<{}, HomeState> {
     }
 
     updateDevice(device: Device) {
-        this.setState({devices: [device]})
+        let currentDevices = this.state.devices.map(d => d.id == device.id ? device : d);
+        this.setState({ devices: currentDevices });
     }
 
     public render() {
         let contents = this.state.loading
             ? <p><em>Loading...</em></p>
-            : <div>
-                {this.state.devices.map(device =>                 
-                    <DeviceHeader {...device} />
+            : <div className="row">
+                {this.state.devices.map(device =>
+                    <div className="col-md-3">                    
+                        <DeviceSelector {...device} />
+                    </div>
                 )}
             </div>;
 
@@ -36,15 +39,13 @@ export class Home extends React.Component<{}, HomeState> {
             <Notifications onDeviceReceived={this.updateDevice} />
             {contents}
         </div>;
-        
+
     }
 }
-
 
 export interface Device {
     id: string;
     type: string;
     timeStamp: string;
     [typeProp: string]: any;
-
 }
