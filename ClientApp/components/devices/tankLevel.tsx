@@ -8,9 +8,9 @@ export class TankLevel extends React.Component<DeviceProps, {}> {
     }
 
     public render() {               
-        return <div>          
+        return <div className="deviceContent">
             <div>Level: {this.props["level"]}</div>
-            <DeviceTrigger deviceId={this.props.id} state={this.props["inputState"]}/>
+            <div><DeviceTrigger deviceId={this.props.id} state={this.props["inputState"]}/></div>
         </div>;
     }
 }

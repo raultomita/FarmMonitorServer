@@ -37,8 +37,8 @@ export class DeviceTrigger extends React.Component<DeviceTriggerProps, DeviceTri
        let actionIcon = this.state.isBusy ? <i className="fa fa-circle-o-notch fa-spin fa-lg"></i> : <i className="fa fa-power-off fa-lg"></i>;
 
        return this.props.state == "1"?             
-            <a className="btn btn-success" href="#" onClick={this.changeState}>{actionIcon}  Opened</a> :
-            <a className="btn btn-default" href="#" onClick={this.changeState}>{actionIcon}  Closed</a>;
+           <button className="btn btn-success deviceTrigger" onClick={this.changeState}>{actionIcon}  Opened</button> :
+           <button className="btn btn-default deviceTrigger" href="#" onClick={this.changeState}>{actionIcon}  Closed</button>;
 
     }
 }

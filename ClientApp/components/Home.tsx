@@ -29,10 +29,11 @@ export class Home extends React.Component<{}, HomeState> {
             ? <p><em>Loading...</em></p>
             : <div className="row">
                 {this.state.devices.map(device =>
-                    <div className="col-md-3">                    
+                    <div className="col-sm-3">                    
                         <DeviceSelector {...device} />
                     </div>
                 )}
+
             </div>;
 
         return <div>

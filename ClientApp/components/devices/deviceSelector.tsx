@@ -12,9 +12,8 @@ export class DeviceSelector extends React.Component<DeviceProps, {}> {
             <TankLevel {...this.props} /> :
             <Watering {...this.props}/>;
         return <div className="panel panel-default">
-            <div className="panel-heading">{this.props.id}</div>
+            <div className="panel-heading">{this.props.id} - Updated {this.props.timeStamp}</div>
             <div className="panel-body">
-                {this.props.timeStamp}
                 {deviceContent}
             </div>
         </div>;

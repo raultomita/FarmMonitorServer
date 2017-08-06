@@ -27,10 +27,22 @@
             color: white
         }
     </style>
-
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
 </head>
 
 <body>
+    <div style="width: 250px; float:right">
+        <span id="dblClickButton">Dbl click me!</span>
+        <div id="dblClickResult"></div>
+
+        <script type="text/javascript">
+            $("#dblClickButton").dblclick(function () {
+                $("#dblClickResult").html("Ok, dubble clicked me.");
+            });
+        </script>
+    </div>
 
     <h1>WebSocket Sample Application</h1>
 

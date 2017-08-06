@@ -70,3 +70,19 @@
     padding-bottom: 10px;
     text-align: right;
 }
+
+.deviceContent {    
+    height: 100px;
+}
+    .deviceContent div {
+        vertical-align:top;
+        height:100%;
+        width:50%;
+        display:inline-block;
+    }
+
+
+.deviceTrigger{
+    width:100%;
+    height:100%;
+}
