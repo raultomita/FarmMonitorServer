@@ -6,10 +6,24 @@
 .main-nav li a.active,
 .main-nav li a.active:hover,
 .main-nav li a.active:focus {
-    background-color: #4189C7;
+    background-color: #444;
     color: white;
 }
-
+.mainHeader {
+    background-color: #444;
+    color: white;
+    height:40px;
+    margin-bottom:10px;
+}
+.brand {
+    font-style: italic;
+    font-weight: bold;
+    color: lightgray;
+    position: absolute;
+    top: 8px;
+    left: 15px;
+    font-size: 1.3em;
+}
 /* Keep the nav menu independent of scrolling and on top of other items */
 .main-nav {
     position: fixed;
@@ -19,12 +33,7 @@
     z-index: 1;
 }
 
-@media (max-width: 767px) {
-    /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
-    body {
-        padding-top: 50px;
-    }
-}
+
 
 @media (min-width: 768px) {
     /* On small screens, convert the nav menu to a vertical sidebar */
@@ -66,23 +75,72 @@
 }
 
 .notificationHeader {
-    padding-top: 10px;
-    padding-bottom: 10px;
     text-align: right;
+    position: absolute;
+    top: 8px;
+    right: 6px;
 }
 
 .deviceContent {    
-    height: 100px;
+   
 }
     .deviceContent div {
-        vertical-align:top;
-        height:100%;
-        width:50%;
-        display:inline-block;
+        
     }
 
 
 .deviceTrigger{
     width:100%;
-    height:100%;
+    height:100px;
+    margin-bottom:13px;
 }
+
+    .deviceTrigger .location {
+        position: absolute;
+        left: 22px;
+        top: 3px;
+        font-style: italic;
+        font-weight: bold;
+        color:lightgray;
+    }
+
+    .deviceTrigger.Bedroom .location {        
+        color: yellowgreen;
+    }
+
+    .deviceTrigger.Bathroom .location {
+        color: dodgerblue;
+    }
+
+    .deviceTrigger.Living-room .location {
+        color: indianred;
+    }
+
+    .deviceTrigger.Kitchen .location {
+        color: darkkhaki;
+    }
+
+    .deviceTrigger.Gradina .location {
+        color: green;
+    }
+
+    .deviceTrigger .content {
+        margin-top: 35px;
+    }
+
+    .deviceTrigger .timeStamp {
+        position: absolute;
+        right: 20px;
+        bottom: 15px;
+        
+    }
+
+.deviceTrigger.btn-default .timeStamp {
+    color: darkgray;
+}
+
+    .deviceTrigger.btn-success .timeStamp {
+        color: #e4e4e4;
+    }
+
+    

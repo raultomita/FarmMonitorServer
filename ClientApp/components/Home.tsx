@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { DeviceSelector } from './devices/deviceSelector';
+import { DeviceTrigger } from './devices/DeviceTrigger';
 import { Notifications } from './Notifications';
 
 interface HomeState {
@@ -29,15 +29,17 @@ export class Home extends React.Component<{}, HomeState> {
             ? <p><em>Loading...</em></p>
             : <div className="row">
                 {this.state.devices.map(device =>
-                    <div className="col-sm-3">                    
-                        <DeviceSelector {...device} />
+                    <div className="col-sm-3">
+                        <DeviceTrigger {...device} />
                     </div>
                 )}
 
             </div>;
 
         return <div>
-            <Notifications onDeviceReceived={this.updateDevice} />
+            <div className="mainHeader row">
+                <span className="brand">Home</span>  <Notifications onDeviceReceived={this.updateDevice} />
+            </div>
             {contents}
         </div>;
 
@@ -48,5 +50,8 @@ export interface Device {
     id: string;
     type: string;
     timeStamp: string;
+    display: string;
+    location: string;
+    state: string;
     [typeProp: string]: any;
 }
