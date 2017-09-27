@@ -27,9 +27,16 @@ export class Home extends React.Component<{}, HomeState> {
     public render() {
         let contents = this.state.loading
             ? <p><em>Loading...</em></p>
-            : <div className="row">
+            : <div className="deviceCollection">
+                <div className="filterDevices">
+                    <button className="btn btn-default"><i className="fa fa-th-large" aria-hidden="true"></i></button>
+                    <button className="btn btn-default Bedroom"><i className="fa fa-bed" aria-hidden="true"></i></button>
+                    <button className="btn btn-default Bathroom"><i className="fa fa-bath" aria-hidden="true"></i> </button>
+                    <button className="btn btn-default Kitchen"><i className="fa fa-cutlery" aria-hidden="true"></i> </button>
+                    <button className="btn btn-default Living-room"><i className="fa fa-television" aria-hidden="true"></i> </button>
+                </div>
                 {this.state.devices.map(device =>
-                    <div className="col-sm-3">
+                    <div className="deviceWrapper">
                         <DeviceTrigger {...device} />
                     </div>
                 )}

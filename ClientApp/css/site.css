@@ -9,12 +9,14 @@
     background-color: #444;
     color: white;
 }
+
 .mainHeader {
     background-color: #444;
     color: white;
-    height:40px;
-    margin-bottom:10px;
+    height: 40px;
+    margin-bottom: 10px;
 }
+
 .brand {
     font-style: italic;
     font-weight: bold;
@@ -41,37 +43,44 @@
         height: 100%;
         width: calc(25% - 20px);
     }
-    .main-nav .navbar {
-        border-radius: 0px;
-        border-width: 0px;
-        height: 100%;
-    }
-    .main-nav .navbar-header {
-        float: none;
-    }
-    .main-nav .navbar-collapse {
-        border-top: 1px solid #444;
-        padding: 0px;
-    }
-    .main-nav .navbar ul {
-        float: none;
-    }
-    .main-nav .navbar li {
-        float: none;
-        font-size: 15px;
-        margin: 6px;
-    }
-    .main-nav .navbar li a {
-        padding: 10px 16px;
-        border-radius: 4px;
-    }
-    .main-nav .navbar a {
-        /* If a menu item's text is too long, truncate it */
-        width: 100%;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
+
+        .main-nav .navbar {
+            border-radius: 0px;
+            border-width: 0px;
+            height: 100%;
+        }
+
+        .main-nav .navbar-header {
+            float: none;
+        }
+
+        .main-nav .navbar-collapse {
+            border-top: 1px solid #444;
+            padding: 0px;
+        }
+
+        .main-nav .navbar ul {
+            float: none;
+        }
+
+        .main-nav .navbar li {
+            float: none;
+            font-size: 15px;
+            margin: 6px;
+        }
+
+            .main-nav .navbar li a {
+                padding: 10px 16px;
+                border-radius: 4px;
+            }
+
+        .main-nav .navbar a {
+            /* If a menu item's text is too long, truncate it */
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 }
 
 .notificationHeader {
@@ -81,75 +90,93 @@
     right: 6px;
 }
 
-.deviceContent {    
-   
+.deviceContent {
 }
+
     .deviceContent div {
-        
     }
 
+.deviceCollection {
+    margin: 0 -7px 0 -7px;
+}
 
-.deviceTrigger{
-    width:100%;
-    height:100px;
-    margin-bottom:13px;
+.deviceWrapper {
+    width: 50%;
+    display: inline-block;
+    padding: 0 7px 0 7px;
+}
+
+.filterDevices {
+    padding: 10px 7px 20px 7px;
+    text-align: center;
+}
+
+    .filterDevices button {
+        margin: 0 12px 0 12px;
+        width: 50px;
+        font-size: 16px;
+        height: 50px;
+    }
+
+.deviceTrigger {
+    width: 100%;
+    height: 100px;
+    margin-bottom: 13px;
 }
 
     .deviceTrigger .location {
-        position: absolute;
-        left: 22px;
-        top: 3px;
+        float: left;
         font-size: 16px;
         color: lightgray;
     }
 
     .deviceTrigger .deviceName {
-        position: absolute;
-        right: 22px;
-        top: 3px;
-        
+        float: right;
         font-style: italic;
         font-weight: bold;
         color: lightgray;
     }
 
-    .deviceTrigger.Bedroom .location {        
+
+   
+
+    .deviceTrigger.Bedroom .location, .filterDevices button.Bedroom {
         color: yellowgreen;
     }
-
-    .deviceTrigger.Bathroom .location {
+       
+    .deviceTrigger.Bathroom .location, .filterDevices button.Bathroom {
         color: dodgerblue;
     }
 
-    .deviceTrigger.Living-room .location {
+    .deviceTrigger.Living-room .location, .filterDevices button.Living-room {
         color: darkkhaki;
     }
 
-    .deviceTrigger.Kitchen .location {        
+    .deviceTrigger.Kitchen .location, .filterDevices button.Kitchen {
         color: indianred;
     }
 
-    .deviceTrigger.Gradina .location {
+    .deviceTrigger.Gradina .location, .filterDevices button.Gradina {
         color: green;
     }
 
+    .deviceTrigger.btn-success .location {
+        color: white;
+    }
+
     .deviceTrigger .content {
-        margin-top: 35px;
+        margin-top: 30px;
     }
 
     .deviceTrigger .timeStamp {
-        position: absolute;
-        right: 20px;
-        bottom: 15px;
-        
+        float: right;
+       margin-top: 17px;
     }
 
-.deviceTrigger.btn-default .timeStamp {
-    color: darkgray;
-}
+    .deviceTrigger.btn-default .timeStamp {
+        color: darkgray;
+    }
 
     .deviceTrigger.btn-success .timeStamp {
         color: #e4e4e4;
     }
-
-    
