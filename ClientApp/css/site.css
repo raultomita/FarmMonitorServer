@@ -99,9 +99,18 @@
         position: absolute;
         left: 22px;
         top: 3px;
+        font-size: 16px;
+        color: lightgray;
+    }
+
+    .deviceTrigger .deviceName {
+        position: absolute;
+        right: 22px;
+        top: 3px;
+        
         font-style: italic;
         font-weight: bold;
-        color:lightgray;
+        color: lightgray;
     }
 
     .deviceTrigger.Bedroom .location {        
@@ -113,11 +122,11 @@
     }
 
     .deviceTrigger.Living-room .location {
-        color: indianred;
+        color: darkkhaki;
     }
 
-    .deviceTrigger.Kitchen .location {
-        color: darkkhaki;
+    .deviceTrigger.Kitchen .location {        
+        color: indianred;
     }
 
     .deviceTrigger.Gradina .location {

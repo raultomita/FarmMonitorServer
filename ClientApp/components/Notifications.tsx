@@ -41,7 +41,7 @@ export class Notifications extends React.Component<NotificationsProps, Notificat
 
         socket.onclose = function (event) {
             notificationsWidget.setState({
-                isConnected: false, status: 'Code: ' + event.code + '. Reason: ' + event.reason });
+                isConnected: false, status: 'Code: ' + event.code + (event.reason? '. Reason: ' + event.reason : "") });
         };
 
         socket.onerror = function (event) {

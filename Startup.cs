@@ -27,7 +27,7 @@ namespace FarmMonitorServer
         public void ConfigureServices(IServiceCollection services)
         {
            
-            services.AddSingleton<IExternalWorld, StubExternalWorld>();
+            services.AddSingleton<IExternalWorld, RedisExternalWorld>();
             services.AddMvc();
         }
 

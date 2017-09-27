@@ -40,11 +40,18 @@ export class DeviceTrigger extends React.Component<DeviceTriggerProps, DeviceTri
     public render() {
         let actionIcon = this.state.isBusy ? <i className="fa fa-circle-o-notch fa-spin fa-lg"></i> : <i className="fa fa-power-off fa-lg"></i>;
         let className = this.props.state == "1" ? "btn btn-success deviceTrigger " : "btn btn-default deviceTrigger ";
-        className += this.props.location 
+        className += this.props.location; 
+
+        let locationIcon = this.props.location == "Bedroom" ? <i className="fa fa-bed" aria-hidden="true"></i> :
+            this.props.location == "Bathroom" ? <i className="fa fa-bath" aria-hidden="true"></i> :
+                this.props.location == "Kitchen" ? <i className="fa fa-cutlery" aria-hidden="true"></i> :
+                    this.props.location == "Living-room" ? <i className="fa fa-television" aria-hidden="true"></i> :
+            <i> </i>;
 
         return <div className={className} onClick={this.changeState}>
-            <div className="location">{this.props.location}</div>
-            <div className="content">{actionIcon}  {this.props.display}</div>
+            <div className="location">{locationIcon}</div>
+            <div className="deviceName">{this.props.display}</div>
+            <div className="content">{actionIcon}</div>
             <div className="timeStamp">{this.props.timeStamp}</div>
         </div>;           
 
