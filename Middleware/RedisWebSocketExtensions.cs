@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Http;
-using StackExchange.Redis;
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,6 +10,8 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using FarmMonitorServer.Database;
+using StackExchange.Redis;
 
 namespace FarmMonitorServer.Middleware
 {
@@ -32,14 +34,14 @@ namespace FarmMonitorServer.Middleware
                     if (context.WebSockets.IsWebSocketRequest)
                     {
                         WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
-                        Action<RedisChannel, RedisValue> subscriptionHandler = (channel, value) =>
+                        Action<RedisChannel, RedisValue> subscriptionHandler = (channel, message) =>
                          {
-                             var message = new ArraySegment<byte>(Encoding.Default.GetBytes(value));
-                             webSocket.SendAsync(message, WebSocketMessageType.Text, true, CancellationToken.None).Wait();
+                             var messageByteArray = new ArraySegment<byte>(Encoding.Default.GetBytes(message));
+                             webSocket.SendAsync(messageByteArray, WebSocketMessageType.Text, true, CancellationToken.None).Wait();
                          };
-                        var redisConnection = context.RequestServices.GetService<ConnectionMultiplexer>();
+                        var externalWorld = context.RequestServices.GetService<IExternalWorld>();
 
-                        await redisConnection.GetSubscriber().SubscribeAsync("notifications", subscriptionHandler);
+                        await externalWorld.SubscribeAsync(subscriptionHandler);                       
 
                         var buffer = new byte[1024 * 4];
                         WebSocketReceiveResult result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
@@ -48,7 +50,7 @@ namespace FarmMonitorServer.Middleware
                             result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
                         }
 
-                        await redisConnection.GetSubscriber().UnsubscribeAsync("notifications", subscriptionHandler);
+                        await externalWorld.UnsubscribeAsync(subscriptionHandler);
                         await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
                     }
                     else

@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using StackExchange.Redis;
 using System.Net.WebSockets;
 using Microsoft.AspNetCore.Http;
 using System.Threading;
 using FarmMonitorServer.Middleware;
 using System.Text;
+using FarmMonitorServer.Database;
 
 namespace FarmMonitorServer
 {
@@ -26,7 +26,8 @@ namespace FarmMonitorServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton(s => ConnectionMultiplexer.Connect("192.168.1.200"));
+           
+            services.AddSingleton<IExternalWorld, StubExternalWorld>();
             services.AddMvc();
         }
 

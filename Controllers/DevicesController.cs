@@ -5,31 +5,24 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using FarmMonitorServer.Database;
 
 namespace FarmMonitorServer.Controllers
 {
     [Route("api/[controller]")]
     public class DevicesController : Controller
     {
-        private const string HashKey = "devices";
-        private readonly IDatabase database;
-        private readonly ISubscriber subscriber;
+        private readonly IExternalWorld externalWorld;
 
-        public DevicesController(ConnectionMultiplexer connection)
+        public DevicesController(IExternalWorld externalWorld)
         {
-            if(connection == null)
-            {
-                throw new ArgumentNullException(nameof(connection));
-            }
-
-            database = connection.GetDatabase();
-            subscriber = connection.GetSubscriber();
+            this.externalWorld = externalWorld ?? throw new ArgumentNullException(nameof(externalWorld));
         }
 
         [HttpGet]
         public IActionResult Get()
-        {          
-            var devices = database.HashGetAll(HashKey);
+        {
+            var devices = externalWorld.GetAllDevices(); 
             return Content($"[{string.Join(", ", devices.Select(entry => entry.Value))}]", "application/json");
             
         }
@@ -37,7 +30,7 @@ namespace FarmMonitorServer.Controllers
         [HttpPut("{id}")]
         public void Put(string id, [FromBody]string value)
         {
-            subscriber.Publish("commands", id);
+            externalWorld.SendCommand(id);
         }
     }
 }
