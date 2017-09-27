@@ -48,7 +48,7 @@ namespace FarmMonitorServer.Middleware
                             result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
                         }
 
-                        await redisConnection.GetSubscriber().UnsubscribeAsync("notification", subscriptionHandler);
+                        await redisConnection.GetSubscriber().UnsubscribeAsync("notifications", subscriptionHandler);
                         await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
                     }
                     else
