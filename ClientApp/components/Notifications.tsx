@@ -23,8 +23,8 @@ export class Notifications extends React.Component<NotificationsProps, Notificat
 
     public render() {        
         let content = this.state.isConnected ?
-            <span className="label label-success">Connected</span> :
-            <span className="label label-danger">Disconnected</span>;
+            <span className="badge badge-success">Connected</span> :
+            <span className="badge badge-danger">Disconnected</span>;
         return <div className="notificationHeader"><span>{this.state.status}</span>{content}</div>;
     }
 

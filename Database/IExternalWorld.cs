@@ -11,5 +11,9 @@ namespace FarmMonitorServer.Database
         Task UnsubscribeAsync(Action<RedisChannel, RedisValue> subscriptionHandler);
         HashEntry[] GetAllDevices();
         void SendCommand(string id);
+        List<string> GetAllKeys();
+        RedisType GetType(string key);
+        List<string> GetInstanceDeviceIds(string key);
+        (string fieldName, string value)[] GetHashFields(string key);
     }
 }

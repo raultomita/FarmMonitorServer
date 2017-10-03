@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using StackExchange.Redis;
+using System.Linq;
 
 namespace FarmMonitorServer.Database
 {
@@ -19,6 +21,26 @@ namespace FarmMonitorServer.Database
                 new HashEntry("switch7", CreateJson("switch7", "Living-room", "0")),
                 new HashEntry("switch8", CreateJson("switch8", "Living-room", "1")),
             };
+        }
+
+        public List<string> GetAllKeys()
+        {
+            return new List<string>();
+        }
+
+        public (string fieldName, string value)[] GetHashFields(string key)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<string> GetInstanceDeviceIds(string key)
+        {
+            throw new NotImplementedException();
+        }
+
+        public RedisType GetType(string key)
+        {
+            throw new NotImplementedException();
         }
 
         public void SendCommand(string id)

@@ -45,8 +45,8 @@
     }
 
         .main-nav .navbar {
-            border-radius: 0px;
-            border-width: 0px;
+            border-radius: 0;
+            border-width: 0;
             height: 100%;
         }
 
@@ -56,7 +56,7 @@
 
         .main-nav .navbar-collapse {
             border-top: 1px solid #444;
-            padding: 0px;
+            padding: 0;
         }
 
         .main-nav .navbar ul {
@@ -90,12 +90,6 @@
     right: 6px;
 }
 
-.deviceContent {
-}
-
-    .deviceContent div {
-    }
-
 .deviceCollection {
     margin: 0 -7px 0 -7px;
 }
@@ -112,7 +106,7 @@
 }
 
     .filterDevices button {
-        margin: 0 12px 0 12px;
+        margin: 0 6px 0 6px;
         width: 50px;
         font-size: 16px;
         height: 50px;
@@ -122,6 +116,11 @@
     width: 100%;
     height: 100px;
     margin-bottom: 13px;
+    color:black;
+}
+
+.deviceTrigger.btn-success {    
+    color: white;
 }
 
     .deviceTrigger .location {
@@ -138,12 +137,12 @@
     }
 
 
-   
+
 
     .deviceTrigger.Bedroom .location, .filterDevices button.Bedroom {
         color: yellowgreen;
     }
-       
+
     .deviceTrigger.Bathroom .location, .filterDevices button.Bathroom {
         color: dodgerblue;
     }
@@ -156,7 +155,7 @@
         color: indianred;
     }
 
-    .deviceTrigger.Gradina .location, .filterDevices button.Gradina {
+    .deviceTrigger.Garden .location, .filterDevices button.Garden {
         color: green;
     }
 
@@ -170,7 +169,7 @@
 
     .deviceTrigger .timeStamp {
         float: right;
-       margin-top: 17px;
+        margin-top: 17px;
     }
 
     .deviceTrigger.btn-default .timeStamp {
@@ -179,4 +178,38 @@
 
     .deviceTrigger.btn-success .timeStamp {
         color: #e4e4e4;
+    }
+
+
+.systemOverview > h1 {
+    font-style: italic;
+    border-bottom: solid lightgray 1px;
+    margin-bottom: 10px;
+}
+
+.fieldDetail label {
+    width: 40%;
+}
+
+
+    .instancesDetails > h2 {
+        font-size: 22px;
+        color: blue;
+    }
+
+.messagesHeader span {
+    display: block;
+}
+
+.unmapped > h2 {
+    font-size: 22px;
+    color: orange;
+}
+
+.deviceDetails {
+    margin-bottom: 10px;
+}
+
+    .deviceDetails label {
+        margin-bottom: 0;
     }
