@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using StackExchange.Redis;
 using System.Linq;
+using FarmMonitorServer.Hubs;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace FarmMonitorServer.Database
 {
@@ -10,18 +14,31 @@ namespace FarmMonitorServer.Database
     {
         private const string StatusHashKey = "devices";
         private const string NotificationsChannel = "notifications";
+        private const string heartbeatsChannel = "heartbeats";
         private const string CommandsChannel = "commands";
 
         private readonly ConnectionMultiplexer connection;
         private readonly IDatabase database;
         private readonly ISubscriber subscriber;
+        private readonly IHubContext<RedisHub> hubContext;
+        private readonly ILogger<RedisExternalWorld> logger;
 
-
-        public RedisExternalWorld()
+        public RedisExternalWorld(IHubContext<RedisHub> hubContext, IConfiguration configuration, ILogger<RedisExternalWorld> logger)
         {
-            connection = ConnectionMultiplexer.Connect("192.168.1.200");
+            this.hubContext = hubContext;
+            this.logger = logger;
+            connection = ConnectionMultiplexer.Connect(configuration["redisHost"]);
             database = connection.GetDatabase();
             subscriber = connection.GetSubscriber();
+            subscriber.Subscribe(NotificationsChannel, RedisHandler);
+            subscriber.Subscribe(heartbeatsChannel, RedisHandler);
+            logger.LogInformation("Connected to redis");
+        }
+
+        private void RedisHandler(RedisChannel channel, RedisValue value)
+        {
+            logger.LogInformation($"Just received {value} from {channel}");
+            hubContext.Clients.All.SendAsync(channel, value);
         }
 
         public HashEntry[] GetAllDevices()

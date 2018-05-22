@@ -8,7 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Net.WebSockets;
 using Microsoft.AspNetCore.Http;
 using System.Threading;
-using FarmMonitorServer.Middleware;
 using System.Text;
 using FarmMonitorServer.Database;
 
@@ -26,7 +25,7 @@ namespace FarmMonitorServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-           
+            services.AddSignalR();
             services.AddSingleton<IExternalWorld, RedisExternalWorld>();
             services.AddMvc();
         }
@@ -49,7 +48,10 @@ namespace FarmMonitorServer
             }
 
             app.UseStaticFiles();
-            app.UseRedisWebSocket();
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<Hubs.RedisHub>("/hub");
+            });
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

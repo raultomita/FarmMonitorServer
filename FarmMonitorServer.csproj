@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
@@ -26,7 +26,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0-preview2-final" />
+    <None Remove="ClientApp\boot.tsx" />
+    <None Remove="ClientApp\components\Admin.tsx" />
+    <None Remove="ClientApp\components\DeviceDetails.tsx" />
+    <None Remove="ClientApp\components\devices\deviceTrigger.tsx" />
+    <None Remove="ClientApp\components\FilterButton.tsx" />
+    <None Remove="ClientApp\components\Home.tsx" />
+    <None Remove="ClientApp\components\Layout.tsx" />
+    <None Remove="ClientApp\components\Messages.tsx" />
+    <None Remove="ClientApp\components\NavMenu.tsx" />
+    <None Remove="ClientApp\components\Notifications.tsx" />
+    <None Remove="ClientApp\routes.tsx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.0-rc1-final" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,11 +48,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Middleware\" />
     <Folder Include="wwwroot\dist\" />
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\boot.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\Admin.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\DeviceDetails.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\devices\deviceTrigger.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\FilterButton.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\Home.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\Layout.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\Messages.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\NavMenu.tsx" />
     <TypeScriptCompile Include="ClientApp\components\Notifications.tsx" />
+    <TypeScriptCompile Include="ClientApp\routes.tsx" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">

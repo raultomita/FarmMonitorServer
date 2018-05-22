@@ -1,5 +1,7 @@
 ﻿import * as React from 'react';
 import { Device } from './Home';
+import { HubConnectionBuilder  } from "@aspnet/signalr";
+
 
 interface NotificationsProps {
     onDeviceReceived: (device: Device) => void; 
@@ -25,47 +27,35 @@ export class Notifications extends React.Component<NotificationsProps, Notificat
         let content = this.state.isConnected ?
             <span className="badge badge-success">Connected</span> :
             <span className="badge badge-danger">Disconnected</span>;
-        return <div className="notificationHeader"><span>{this.state.status}</span>{content}</div>;
+        return <div className="notificationHeader">
+            <span className="state">{this.state.status}</span>
+            <span className="badge badge-success heartbeat">W</span>
+            <span className="badge badge-success heartbeat">M</span>
+            <span className="badge badge-success heartbeat">J</span>
+            <span className="badge badge-success heartbeat">C</span>
+            <span className="badge badge-success heartbeat">T</span>
+            {content}</div>;
     }
 
     connect(notificationsWidget) {
-        let scheme = document.location.protocol == "https:" ? "wss" : "ws";
         let port = document.location.port ? (":" + document.location.port) : "";
-        let connectionUrl = scheme + "://" + document.location.hostname + port + "/ws";
+        let connectionUrl = document.location.protocol + "://" + document.location.hostname + port + "/hub";
 
-        let socket = new WebSocket(connectionUrl);
+        let hubConnection = new HubConnectionBuilder().withUrl("/hub").build();
 
-        socket.onopen = function (event) {
-            notificationsWidget.setState({ isConnected: true, status:"" });
-        };
-
-        socket.onclose = function (event) {
-            notificationsWidget.setState({
-                isConnected: false, status: 'Code: ' + event.code + (event.reason? '. Reason: ' + event.reason : "") });
-        };
-
-        socket.onerror = function (event) {
-            switch (socket.readyState) {
-
-                case WebSocket.CLOSED:
-                    notificationsWidget.setState({
-                        isConnected: false, status: 'Closed ...'
-                    });
-
-                    break;
-
-                default:
-
-                    event;
-
-                    break;
-
-            }
-        };
-
-        socket.onmessage = function (event) {
-            let deviceData = JSON.parse(event.data) as Device;
+        hubConnection.on("notifications", (value: string) => {
+            let deviceData = JSON.parse(value) as Device;
             notificationsWidget.props.onDeviceReceived(deviceData);
-        };
+        });
+        hubConnection.on("heartbeats", (value: string) => {
+            console.log(value);
+        })
+
+        hubConnection.onclose(err => notificationsWidget.setState({ isConnected: false, status: "Closed" }));
+
+        hubConnection.start()
+            .then(v => notificationsWidget.setState({ isConnected: true, status: "" }))
+            .catch(err => notificationsWidget.setState({ isConnected: false, status: err.toString() }));
+         
     }
 }

@@ -90,9 +90,18 @@
     right: 6px;
 }
 
-.deviceCollection {
-    margin: 0 -7px 0 -7px;
-}
+    .notificationHeader .heartbeat {
+        margin-right: 4px;
+        
+    }
+
+    .notificationHeader .state {
+        margin-right: 4px;
+    }
+
+    .deviceCollection {
+        margin: 0 -7px 0 -7px;
+    }
 
 .deviceWrapper {
     width: 50%;

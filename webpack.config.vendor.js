@@ -17,7 +17,7 @@ module.exports = (env) => {
             ]
         },
         entry: {
-            vendor: ['bootstrap', 'popper.js', 'bootstrap/dist/css/bootstrap.css', 'font-awesome/css/font-awesome.css', 'event-source-polyfill', 'isomorphic-fetch', 'react', 'react-dom', 'react-router-dom', 'jquery'],
+            vendor: ['bootstrap', 'popper.js', 'bootstrap/dist/css/bootstrap.css', 'font-awesome/css/font-awesome.css', 'event-source-polyfill', 'isomorphic-fetch', 'react', 'react-dom', 'react-router-dom', 'jquery', '@aspnet/signalr'],
         },
         output: {
             path: path.join(__dirname, 'wwwroot', 'dist'),

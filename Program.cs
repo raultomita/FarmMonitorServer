@@ -18,10 +18,8 @@ namespace FarmMonitorServer
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseKestrel()
-                .UseStartup<Startup>()
-                .UseUrls("http://0.0.0.0:5000")
+            WebHost.CreateDefaultBuilder<Startup>(args)
+                .UseUrls("http://*:80")
                 .Build();
     }
 }
