@@ -1,62 +1,63 @@
 import * as React from 'react';
-import { DeviceTrigger } from './devices/DeviceTrigger';
+import { DeviceTrigger, ActiveDevice } from './devices/DeviceTrigger';
 import { Notifications } from './Notifications';
 import { FilterButton } from './FilterButton';
 
 interface HomeState {
-    state: string;
+    activeFilter: string;
     devices: Device[];
     filteredDevices: Device[];
+    activeDevices: Device[];
     loading: boolean;
 }
 
 export class Home extends React.Component<{}, HomeState> {
     constructor() {
         super();
-        this.state = { devices: [], filteredDevices: [], state:"All", loading: true };
+        this.state = { devices: [], filteredDevices: [], activeDevices: [], activeFilter: "All", loading: true };
         this.updateDevice = this.updateDevice.bind(this);
-        this.filterBedroom = this.filterBedroom.bind(this);
-        this.filterBathroom = this.filterBathroom.bind(this);
-        this.filterKitchen = this.filterKitchen.bind(this);
-        this.filterLivingRoom = this.filterLivingRoom.bind(this);
         this.resetFilter = this.resetFilter.bind(this);
-        
+        this.filter = this.filter.bind(this);
+
         fetch('/api/devices')
             .then(response => response.json() as Promise<Device[]>)
             .then(data => {
-                this.setState({ devices: data, filteredDevices: data, loading: false });
+                let sortedDevices = data.sort(this.sortDevices);
+                this.setState({
+                    devices: sortedDevices,
+                    filteredDevices: sortedDevices,
+                    activeDevices: sortedDevices.filter(d => d.state === "1"),
+                    loading: false
+                });
             });
+    }
+
+    sortDevices(first: Device, second: Device) {
+        if (first.location > second.location) {
+            return 1;
+        }
+
+        else if (first.location > second.location) {
+            return -1;
+        }
+        else {
+            return 0;
+        }
     }
 
     updateDevice(device: Device) {
         let currentDevices = this.state.devices.map(d => d.id == device.id ? device : d);
         let currentFilteredDevices = this.state.filteredDevices.map(d => d.id == device.id ? device : d);
-        this.setState({ devices: currentDevices, filteredDevices: currentFilteredDevices });
+        this.setState({ devices: currentDevices, filteredDevices: currentFilteredDevices, activeDevices: currentFilteredDevices.filter(d => d.state === "1"), });
     }
 
-     filterBedroom(){  
-        this.filter("Bedroom");      
-     } 
-
-     filterBathroom(){  
-        this.filter("Bathroom");      
-     }
-
-     filterKitchen(){  
-        this.filter("Kitchen");      
-     }
-
-    filterLivingRoom(){  
-        this.filter("Living-room");      
-     }     
-
-    resetFilter(){
-         this.setState({filteredDevices: this.state.devices, state: "All"});
+    resetFilter() {
+        this.setState({ filteredDevices: this.state.devices, activeDevices: this.state.devices.filter(d => d.state === "1"), activeFilter: "All" });
     }
 
-    filter(type){
-        var filteredDevices = this.state.devices.filter(d=> d.location === type);
-        this.setState({filteredDevices: filteredDevices, state: type});
+    filter(type) {
+        var filteredDevices = this.state.devices.filter(d => d.location === type);
+        this.setState({ filteredDevices: filteredDevices, activeDevices: filteredDevices.filter(d => d.state === "1"), activeFilter: type });
     }
 
     public render() {
@@ -64,18 +65,27 @@ export class Home extends React.Component<{}, HomeState> {
             ? <p><em>Loading...</em></p>
             : <div className="deviceCollection">
                 <div className="filterDevices">
-                    <FilterButton type="All" onClick={this.resetFilter} symbol="fa-th-large" state={this.state.state}/>
-                    <FilterButton type="Bedroom" onClick={this.filterBedroom} symbol="fa-bed" state={this.state.state}/>
-                    <FilterButton type="Bathroom" onClick={this.filterBathroom} symbol="fa-bath" state={this.state.state}/>
-                    <FilterButton type="Kitchen" onClick={this.filterKitchen} symbol="fa-cutlery" state={this.state.state}/>
-                    <FilterButton type="Living-room" onClick={this.filterLivingRoom} symbol="fa-television" state={this.state.state}/>
+                    <FilterButton type="All" onClick={this.resetFilter} symbol="fa-th-large" state={this.state.activeFilter} />
+                    <FilterButton type="Bedroom" onClick={this.filter} symbol="fa-bed" state={this.state.activeFilter} />
+                    <FilterButton type="Bathroom" onClick={this.filter} symbol="fa-bath" state={this.state.activeFilter} />
+                    <FilterButton type="Kitchen" onClick={this.filter} symbol="fa-cutlery" state={this.state.activeFilter} />
+                    <FilterButton type="Living-room" onClick={this.filter} symbol="fa-television" state={this.state.activeFilter} />
+                    <FilterButton type="Lobby" onClick={this.filter} symbol="fa-archive" state={this.state.activeFilter} />
                 </div>
+
+                {this.state.activeDevices.length > 0 ?
+                    <div className="activeDevices">
+                        {this.state.activeDevices.map(device =>
+                            <ActiveDevice {...device} />
+                        )}
+                    </div> :
+                    ""}
+
                 {this.state.filteredDevices.map(device =>
                     <div key={device.id} className="deviceWrapper">
                         <DeviceTrigger {...device} />
                     </div>
                 )}
-
             </div>;
 
         return <div>
