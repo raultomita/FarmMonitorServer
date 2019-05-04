@@ -27,12 +27,38 @@ namespace FarmMonitorServer.Database
         {
             this.hubContext = hubContext;
             this.logger = logger;
+            ConfigurationOptions options = new ConfigurationOptions();
+            options.KeepAlive = 30;
             connection = ConnectionMultiplexer.Connect(configuration["redisHost"]);
             database = connection.GetDatabase();
             subscriber = connection.GetSubscriber();
             subscriber.Subscribe(NotificationsChannel, RedisHandler);
             subscriber.Subscribe(heartbeatsChannel, RedisHandler);
             logger.LogInformation("Connected to redis");
+            connection.ConnectionFailed += Connection_ConnectionFailed;
+            connection.ConnectionRestored += Connection_ConnectionRestored;
+            connection.InternalError += Connection_InternalError;
+            connection.ErrorMessage += Connection_ErrorMessage;
+        }
+
+        private void Connection_ErrorMessage(object sender, RedisErrorEventArgs e)
+        {
+            logger.LogError(e.Message);
+        }
+
+        private void Connection_InternalError(object sender, InternalErrorEventArgs e)
+        {
+            logger.LogError(e.Exception?.Message);
+        }
+
+        private void Connection_ConnectionRestored(object sender, ConnectionFailedEventArgs e)
+        {
+            logger.LogInformation("Connection restored");
+        }
+
+        private void Connection_ConnectionFailed(object sender, ConnectionFailedEventArgs e)
+        {
+            logger.LogWarning($"Connection Failed {e.FailureType} with exception {e.Exception?.Message}");
         }
 
         private void RedisHandler(RedisChannel channel, RedisValue value)

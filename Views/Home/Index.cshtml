@@ -6,6 +6,14 @@
 
 @section scripts {
     <script src="~/dist/main.js" asp-append-version="true"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(function () {
+                    console.log('Service Worker Registered');
+                });
+        }
+    </script>
 }
 
 

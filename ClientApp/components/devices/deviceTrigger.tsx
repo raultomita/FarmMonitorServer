@@ -49,11 +49,17 @@ export class DeviceTrigger extends React.Component<DeviceTriggerProps, DeviceTri
                         this.props.location == "Lobby" ? <i className="fa fa-archive" aria-hidden="true"></i> :
             <i> </i>;
 
+        let seconds = Math.floor((Date.now() - Date.parse(this.props.timeStamp)) / 1000);
+        let timeStampMessage = seconds < 60 ? seconds + " sec ago" :
+            seconds < 3600 ? Math.floor(seconds / 60) + " min ago" :
+                seconds < 86400 ? Math.floor(seconds / 3600) + " hour ago" : Math.floor(seconds / 86400) + " day ago";
+
+
         return <div className={className} onClick={this.changeState}>
             <div className="location">{locationIcon}</div>
             <div className="deviceName">{this.props.display}</div>
             <div className="content">{actionIcon}</div>
-            <div className="timeStamp">{this.props.timeStamp}</div>
+            <div className="timeStamp">{timeStampMessage}</div>
         </div>;           
 
     }
