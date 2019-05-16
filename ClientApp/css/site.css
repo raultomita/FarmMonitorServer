@@ -198,6 +198,22 @@
     background-color: indianred;
 }
 
+.deviceType {
+    color:white;
+    background-color: limegreen;
+    margin: 5px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.locationType {
+    color: white;
+    background-color: cornflowerblue;
+    margin: 3px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
 .deviceTrigger.Bedroom .location, .filterDevices button.Bedroom {
     color: yellowgreen;
 }

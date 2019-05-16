@@ -26,14 +26,14 @@ export class Admin extends React.Component<{}, AdminState> {
                 <Messages header="System errors" messages={this.state.systemOverview.messages} />
                 <p>
                     Supported types CS: 
-                    {this.state.systemOverview.supportedTypes.map(type=> 
-                        <span> {type} </span>
+                    {this.state.systemOverview.supportedTypes.map(type =>
+                        <span> "{type}" </span>
                     )}
                 </p>
                 <p>
                     Supported locations CS: 
-                    {this.state.systemOverview.supportedLocations.map(location=> 
-                        <span> {location} </span>
+                    {this.state.systemOverview.supportedLocations.map(location =>
+                        <span> "{location}" </span>
                     )}
                 </p>
 

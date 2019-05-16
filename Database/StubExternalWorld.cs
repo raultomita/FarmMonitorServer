@@ -8,6 +8,11 @@ namespace FarmMonitorServer.Database
 {
     public class StubExternalWorld : IExternalWorld
     {
+        public void DeleteKey(string key)
+        {
+            throw new NotImplementedException();
+        }
+
         public HashEntry[] GetAllDevices()
         {
             return new HashEntry[]

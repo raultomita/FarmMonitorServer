@@ -11,9 +11,9 @@ namespace FarmMonitorServer.Controllers
     [Route("api/[controller]")]
     public class AdminController : Controller
     {
-        private static readonly List<string> supportedTypes = new List<string> { "switch", "toggleButton", "tankLevel", "watering" };
-        private static readonly List<string> supportedLocations = new List<string> { "Bedroom", "Bathroom", "Living-room", "Kitchen", "Garden" };
-
+        private static readonly List<string> supportedTypes = new List<string> { "switch", "toggleButton", "tankLevel", "watering", "led", "automaticTrigger", "distanceSensor" };
+        private static readonly List<string> supportedLocations = new List<string> { "Bedroom", "Bathroom", "Living-room", "Kitchen", "Garden", "Lobby" };
+        
         private readonly IExternalWorld externalWorld;
 
         public AdminController(IExternalWorld externalWorld)

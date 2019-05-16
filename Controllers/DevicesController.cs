@@ -28,7 +28,7 @@ namespace FarmMonitorServer.Controllers
         }
                 
         [HttpPut("{id}")]
-        public void Put(string id, [FromBody]string value)
+        public void Put(string id)
         {
             externalWorld.SendCommand(id);
         }

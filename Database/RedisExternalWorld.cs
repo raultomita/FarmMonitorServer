@@ -74,7 +74,7 @@ namespace FarmMonitorServer.Database
 
         public List<string> GetAllKeys()
         {
-            var server = connection.GetServer(connection.Configuration);
+            var server = connection.GetServer(connection.GetEndPoints().First());
 
             var keys = server.Keys(pageSize: 100);
 
