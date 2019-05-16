@@ -75,6 +75,7 @@ export class Notifications extends React.Component<NotificationsProps, Notificat
             let deviceData = JSON.parse(value) as Device;
             notificationsWidget.props.onDeviceReceived(deviceData);
         });
+
         hubConnection.on("heartbeats", (value: any[]) => {
             console.log(value);
             let newState: any = {}; 
