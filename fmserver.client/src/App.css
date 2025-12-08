@@ -44,6 +44,20 @@ body {
 }
 
 /* Device Collection Grid */
+.locationGroup {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.locationHeader {
+    margin: 10px 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee;
+    color: #666;
+    font-size: 1.2em;
+    font-weight: normal;
+}
+
 .deviceCollection {
     display: flex;
     flex-wrap: wrap;    

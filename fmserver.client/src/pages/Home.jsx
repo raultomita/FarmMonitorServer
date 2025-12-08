@@ -61,6 +61,17 @@ function Home() {
         return filteredDevices.filter(d => d.state === "1");
     }, [filteredDevices]);
 
+    const groupedDevices = useMemo(() => {
+        const groups = {};
+        filteredDevices.forEach(device => {
+            if (!groups[device.location]) {
+                groups[device.location] = [];
+            }
+            groups[device.location].push(device);
+        });
+        return groups;
+    }, [filteredDevices]);
+
     if (loading) {
         return <p><em>Loading...</em></p>;
     }
@@ -86,10 +97,17 @@ function Home() {
                     ))}
                 </div>
             )}
-            <div className="deviceCollection">
-                {filteredDevices.map(device => (
-                    <div key={device.id} className="deviceWrapper">
-                        <DeviceTrigger {...device} />
+            <div className="deviceGroups">
+                {Object.entries(groupedDevices).map(([location, devices]) => (
+                    <div key={location} className="locationGroup">
+                        {activeFilter === "All" && <h3 className="locationHeader">{location}</h3>}
+                        <div className="deviceCollection">
+                            {devices.map(device => (
+                                <div key={device.id} className="deviceWrapper">
+                                    <DeviceTrigger {...device} />
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 ))}
             </div>
