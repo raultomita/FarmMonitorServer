@@ -7,9 +7,9 @@ namespace FMServer.Server.Database
     public class RedisExternalWorld : IExternalWorld
     {
         private const string StatusHashKey = "devices";
-        private const string NotificationsChannel = "notifications";
-        private const string heartbeatsChannel = "heartbeats";
-        private const string CommandsChannel = "commands";
+        private static readonly RedisChannel NotificationsChannel = RedisChannel.Literal("notifications");
+        private static readonly RedisChannel HeartbeatsChannel = RedisChannel.Literal("heartbeats");
+        private static readonly RedisChannel CommandsChannel = RedisChannel.Literal("commands");
 
         private readonly ConnectionMultiplexer connection;
         private readonly IDatabase database;
@@ -31,30 +31,30 @@ namespace FMServer.Server.Database
             database = connection.GetDatabase();
             subscriber = connection.GetSubscriber();
             subscriber.Subscribe(NotificationsChannel, RedisHandler);
-            subscriber.Subscribe(heartbeatsChannel, RedisHandler);
-            logger.LogInformation("Connected to redis");
+            subscriber.Subscribe(HeartbeatsChannel, RedisHandler);
+            logger.LogInformation("Connected to redis");            
             connection.ConnectionFailed += Connection_ConnectionFailed;
             connection.ConnectionRestored += Connection_ConnectionRestored;
             connection.InternalError += Connection_InternalError;
             connection.ErrorMessage += Connection_ErrorMessage;
         }
 
-        private void Connection_ErrorMessage(object sender, RedisErrorEventArgs e)
+        private void Connection_ErrorMessage(object? sender, RedisErrorEventArgs e)
         {
             logger.LogError(e.Message);
         }
 
-        private void Connection_InternalError(object sender, InternalErrorEventArgs e)
+        private void Connection_InternalError(object? sender, InternalErrorEventArgs e)
         {
             logger.LogError(e.Exception?.Message);
         }
 
-        private void Connection_ConnectionRestored(object sender, ConnectionFailedEventArgs e)
+        private void Connection_ConnectionRestored(object? sender, ConnectionFailedEventArgs e)
         {
             logger.LogInformation("Connection restored");
         }
 
-        private void Connection_ConnectionFailed(object sender, ConnectionFailedEventArgs e)
+        private void Connection_ConnectionFailed(object? sender, ConnectionFailedEventArgs e)
         {
             logger.LogWarning($"Connection Failed {e.FailureType} with exception {e.Exception?.Message}");
         }
@@ -62,7 +62,7 @@ namespace FMServer.Server.Database
         private void RedisHandler(RedisChannel channel, RedisValue value)
         {
             logger.LogInformation($"Just received {value} from {channel}");
-            hubContext.Clients.All.SendAsync(channel, value);
+            hubContext.Clients.All.SendAsync(channel.ToString(), value);
         }
 
         public HashEntry[] GetAllDevices()
