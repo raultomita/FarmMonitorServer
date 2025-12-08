@@ -1,0 +1,6 @@
+@FMServer.Server_HostAddress = http://localhost:5181
+
+GET {{FMServer.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

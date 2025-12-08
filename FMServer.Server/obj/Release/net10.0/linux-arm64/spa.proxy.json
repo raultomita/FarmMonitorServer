@@ -1,0 +1,10 @@
+{
+"SpaProxyServer": {
+"ServerUrl": "https://localhost:50510",
+"RedirectUrl": "",
+"LaunchCommand": "npm run dev",
+"WorkingDirectory": "D:\\Projects\\FMServer\\FMServer.Server\\..\\fmserver.client",
+"MaxTimeoutInSeconds": "120",
+"KeepRunning": "false"
+}
+}

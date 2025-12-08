@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="fmserver.client/fmserver.client.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="FMServer.Server/FMServer.Server.csproj" />
+</Solution>

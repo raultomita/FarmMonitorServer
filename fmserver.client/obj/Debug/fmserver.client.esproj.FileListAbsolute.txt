@@ -1,0 +1,2 @@
+D:\Projects\FMServer\fmserver.client\obj\Debug\fmserver.client.esproj.CoreCompileInputs.cache
+D:\Projects\FarmMonitorServer\fmserver.client\obj\Debug\fmserver.client.esproj.CoreCompileInputs.cache
