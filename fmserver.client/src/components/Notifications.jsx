@@ -54,6 +54,14 @@ export function Notifications({ onDeviceReceived }) {
                 }));
             });
 
+            hubConnection.onreconnecting(error => {
+                setConnectionState(prevState => ({ ...prevState, isConnected: false, status: "Reconnecting..." }));
+            });
+
+            hubConnection.onreconnected(connectionId => {
+                setConnectionState(prevState => ({ ...prevState, isConnected: true, status: "" }));
+            });
+
             hubConnection.onclose(err => {
                 setConnectionState(prevState => ({ ...prevState, isConnected: false, status: "Closed" }));
             });
