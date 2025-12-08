@@ -62,7 +62,7 @@ namespace FMServer.Server.Database
         private void RedisHandler(RedisChannel channel, RedisValue value)
         {
             logger.LogInformation($"Just received {value} from {channel}");
-            hubContext.Clients.All.SendAsync(channel.ToString(), value);
+            hubContext.Clients.All.SendAsync(channel.ToString(), value.ToString());
         }
 
         public HashEntry[] GetAllDevices()

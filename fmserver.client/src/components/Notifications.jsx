@@ -5,11 +5,7 @@ export function Notifications({ onDeviceReceived }) {
     const [connectionState, setConnectionState] = useState({
         isConnected: false,
         status: "",
-        watcher: false,
-        coco: false,
-        main: false,
-        jason: false,
-        thomas: false
+        heartbeats: []
     });
 
     useEffect(() => {
@@ -29,29 +25,14 @@ export function Notifications({ onDeviceReceived }) {
             });
 
             hubConnection.on("heartbeats", (value) => {
-                console.log(value);
-                const newHeartbeatState = {
-                    watcher: false,
-                    coco: false,
-                    main: false,
-                    jason: false,
-                    thomas: false
-                };
-
                 if (Array.isArray(value)) {
-                    value.forEach(item => {
-                        if (item.hostName === "watcher" && !item.isDead) newHeartbeatState.watcher = true;
-                        if (item.hostName === "coco" && !item.isDead) newHeartbeatState.coco = true;
-                        if (item.hostName === "jason" && !item.isDead) newHeartbeatState.jason = true;
-                        if (item.hostName === "main" && !item.isDead) newHeartbeatState.main = true;
-                        if (item.hostName === "thomas" && !item.isDead) newHeartbeatState.thomas = true;
-                    });
+                    // Sort by hostname to ensure consistent order
+                    const sortedHeartbeats = [...value].sort((a, b) => a.hostName.localeCompare(b.hostName));
+                    setConnectionState(prevState => ({
+                        ...prevState,
+                        heartbeats: sortedHeartbeats
+                    }));
                 }
-
-                setConnectionState(prevState => ({
-                    ...prevState,
-                    ...newHeartbeatState
-                }));
             });
 
             hubConnection.onreconnecting(error => {
@@ -81,25 +62,26 @@ export function Notifications({ onDeviceReceived }) {
         connect();
     }, [onDeviceReceived]);
 
-    const renderHeartbeat = (isActive, label) => (
-        <span className={`badge ${isActive ? 'bg-success' : 'bg-danger'} heartbeat`}>
+    const renderHeartbeat = (isActive, label, key) => (
+        <span key={key} className={`badge ${isActive ? 'bg-success' : 'bg-danger'} heartbeat`}>
             {label}
         </span>
     );
 
-    const content = connectionState.isConnected ?
-        <span className="badge bg-success">Connected</span> :
-        <span className="badge bg-danger">Disconnected</span>;
+    const connectionBadgeText = connectionState.isConnected 
+        ? "Connected" 
+        : (connectionState.status || "Disconnected");
+        
+    const connectionBadgeClass = connectionState.isConnected 
+        ? "badge bg-success" 
+        : "badge bg-danger";
 
     return (
         <div className="notificationHeader">
-            <span className="state">{connectionState.status}</span>
-            {renderHeartbeat(connectionState.watcher, "W")}
-            {renderHeartbeat(connectionState.coco, "C")}
-            {renderHeartbeat(connectionState.jason, "J")}
-            {renderHeartbeat(connectionState.main, "M")}
-            {renderHeartbeat(connectionState.thomas, "T")}
-            {content}
+            {connectionState.heartbeats.map(hb => 
+                renderHeartbeat(!hb.isDead, hb.hostName.charAt(0).toUpperCase(), hb.hostName)
+            )}
+            <span className={connectionBadgeClass}>{connectionBadgeText}</span>
         </div>
     );
 }
