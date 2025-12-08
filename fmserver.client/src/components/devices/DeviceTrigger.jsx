@@ -47,7 +47,7 @@ export function DeviceTrigger(props) {
     const changeState = async () => {
         setIsBusy(true);
         try {
-            await fetch('/api/devices/' + props.id, {
+            await fetch('/devices/' + props.id, {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',
@@ -88,7 +88,7 @@ export function ActiveDevice(props) {
     const changeState = async () => {
         setIsBusy(true);
         try {
-            await fetch('/api/devices/' + props.id, {
+            await fetch('/devices/' + props.id, {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',
