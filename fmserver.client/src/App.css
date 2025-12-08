@@ -20,7 +20,7 @@ body {
     color: lightgray;
     font-size: 1.3em;
     position: absolute;
-    top: 8px;
+    top: 4px;
     left: 15px;
 }
 
@@ -28,7 +28,7 @@ body {
 .notificationHeader {
     text-align: right;
     position: absolute;
-    top: 8px;
+    top: 6px;
     right: 6px;
 }
 
