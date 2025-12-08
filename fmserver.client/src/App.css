@@ -97,7 +97,7 @@ body {
 .deviceTrigger.btn-success {
     color: #333;
     background-color: #fff;
-    border: none;
+    border: 2px solid #8dd49e;
     box-shadow: 0 4px 12px rgba(40, 167, 69, 0.5); /* Green glow for active state */
 }
 
@@ -168,27 +168,27 @@ body {
 
 /* Location Colors */
 .activeDevice.Bedroom, .deviceTrigger.Bedroom .location, .filterDevices button.Bedroom { color: yellowgreen; }
-.activeDevice.Bedroom { background-color: #fff; color: yellowgreen; border: 1px solid yellowgreen; }
+.activeDevice.Bedroom { background-color: yellowgreen; color: white; border: none; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
 .filterDevices button.Bedroom.active { background-color: yellowgreen; color: white; border-color: yellowgreen; }
 .filterDevices button.Bedroom.active i { color: white; }
 
 .activeDevice.Lobby, .deviceTrigger.Lobby .location, .filterDevices button.Lobby { color: orange; }
-.activeDevice.Lobby { background-color: #fff; color: orange; border: 1px solid orange; }
+.activeDevice.Lobby { background-color: orange; color: white; border: none; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
 .filterDevices button.Lobby.active { background-color: orange; color: white; border-color: orange; }
 .filterDevices button.Lobby.active i { color: white; }
 
 .activeDevice.Bathroom, .deviceTrigger.Bathroom .location, .filterDevices button.Bathroom { color: dodgerblue; }
-.activeDevice.Bathroom { background-color: #fff; color: dodgerblue; border: 1px solid dodgerblue; }
+.activeDevice.Bathroom { background-color: dodgerblue; color: white; border: none; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
 .filterDevices button.Bathroom.active { background-color: dodgerblue; color: white; border-color: dodgerblue; }
 .filterDevices button.Bathroom.active i { color: white; }
 
 .activeDevice.Living-room, .deviceTrigger.Living-room .location, .filterDevices button.Living-room { color: darkkhaki; }
-.activeDevice.Living-room { background-color: #fff; color: darkkhaki; border: 1px solid darkkhaki; }
+.activeDevice.Living-room { background-color: darkkhaki; color: white; border: none; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
 .filterDevices button.Living-room.active { background-color: darkkhaki; color: white; border-color: darkkhaki; }
 .filterDevices button.Living-room.active i { color: white; }
 
 .activeDevice.Kitchen, .deviceTrigger.Kitchen .location, .filterDevices button.Kitchen { color: indianred; }
-.activeDevice.Kitchen { background-color: #fff; color: indianred; border: 1px solid indianred; }
+.activeDevice.Kitchen { background-color: indianred; color: white; border: none; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
 .filterDevices button.Kitchen.active { background-color: indianred; color: white; border-color: indianred; }
 .filterDevices button.Kitchen.active i { color: white; }
 
