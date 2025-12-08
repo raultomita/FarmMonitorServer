@@ -9,7 +9,7 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddSignalR();
-builder.Services.AddSingleton<IExternalWorld, StubExternalWorld>();
+builder.Services.AddSingleton<IExternalWorld, RedisExternalWorld>();
 var app = builder.Build();
 
 app.UseDefaultFiles();

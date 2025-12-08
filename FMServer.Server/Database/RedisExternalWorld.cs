@@ -23,7 +23,11 @@ namespace FMServer.Server.Database
             this.logger = logger;
             ConfigurationOptions options = new ConfigurationOptions();
             options.KeepAlive = 30;
-            connection = ConnectionMultiplexer.Connect(configuration["redisHost"]);
+            var hostName = configuration["redisHost"];
+            if (string.IsNullOrEmpty(hostName)) {
+                hostName = "127.0.0.1";
+            }
+            connection = ConnectionMultiplexer.Connect(hostName);
             database = connection.GetDatabase();
             subscriber = connection.GetSubscriber();
             subscriber.Subscribe(NotificationsChannel, RedisHandler);
