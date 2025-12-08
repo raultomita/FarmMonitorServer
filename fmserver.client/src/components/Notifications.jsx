@@ -82,14 +82,14 @@ export function Notifications({ onDeviceReceived }) {
     }, [onDeviceReceived]);
 
     const renderHeartbeat = (isActive, label) => (
-        <span className={`badge ${isActive ? 'badge-success' : 'badge-danger'} heartbeat`}>
+        <span className={`badge ${isActive ? 'bg-success' : 'bg-danger'} heartbeat`}>
             {label}
         </span>
     );
 
     const content = connectionState.isConnected ?
-        <span className="badge badge-success">Connected</span> :
-        <span className="badge badge-danger">Disconnected</span>;
+        <span className="badge bg-success">Connected</span> :
+        <span className="badge bg-danger">Disconnected</span>;
 
     return (
         <div className="notificationHeader">
