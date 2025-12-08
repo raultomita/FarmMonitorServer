@@ -31,17 +31,17 @@ namespace FMServer.Server.Database
 
         public (string fieldName, string value)[] GetHashFields(string key)
         {
-            throw new NotImplementedException();
+            return [];
         }
 
         public List<string> GetInstanceDeviceIds(string key)
         {
-            throw new NotImplementedException();
+            return [];
         }
 
         public RedisType GetType(string key)
         {
-            throw new NotImplementedException();
+            return RedisType.None;
         }
 
         public void SendCommand(string id)

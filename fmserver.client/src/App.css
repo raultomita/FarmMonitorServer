@@ -1,42 +1,357 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* Global Styles */
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    background-color: #f4f4f4;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* Wrapping element */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-top: 20px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Navigation Styles */
+.main-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: #222;
+    border-bottom: 1px solid #080808;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.main-nav .navbar {
+    margin-bottom: 0;
+    border: none;
 }
 
-.card {
-  padding: 2em;
+.main-nav .navbar-brand {
+    color: #9d9d9d;
+    font-weight: bold;
 }
 
-.read-the-docs {
-  color: #888;
+.main-nav .navbar-nav > li > a {
+    color: #9d9d9d;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.main-nav .navbar-nav > li > a:hover,
+.main-nav .navbar-nav > li > a:focus {
+    color: #fff;
+    background-color: transparent;
+}
+
+.main-nav .navbar-nav > li > a.active {
+    color: #fff;
+    background-color: #080808;
+}
+
+.main-nav li .glyphicon {
+    margin-right: 10px;
+}
+
+/* Responsive Sidebar for larger screens */
+@media (min-width: 768px) {
+    body {
+        padding-top: 0;
+    }
+
+    .main-nav {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 250px; /* Fixed width for sidebar */
+        padding: 0;
+        overflow-y: auto;
+        background-color: #222;
+        border-right: 1px solid #080808;
+    }
+
+    .main-nav .navbar {
+        padding: 0;
+    }
+
+    .main-nav .navbar-header {
+        float: none;
+        padding: 15px;
+    }
+
+    .main-nav .navbar-collapse {
+        padding: 0;
+    }
+
+    .main-nav .navbar-nav {
+        float: none;
+        margin: 0;
+    }
+
+    .main-nav .navbar-nav > li {
+        float: none;
+    }
+
+    .main-nav .navbar-nav > li > a {
+        padding: 15px 20px;
+        border-bottom: 1px solid #333;
+    }
+
+    .body-content {
+        margin-left: 250px; /* Offset content by sidebar width */
+        margin-top: 0;
+        padding: 20px;
+        width: auto; /* Allow content to fill remaining space */
+    }
+}
+
+/* Header Styles */
+.mainHeader {
+    background-color: #3e3e3e;
+    color: white;
+    height: 50px; /* Increased height for better spacing */
+    margin-bottom: 20px;
+    position: relative;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+}
+
+.brand {
+    font-style: italic;
+    font-weight: bold;
+    color: lightgray;
+    font-size: 1.3em;
+}
+
+/* Notification Styles */
+.notificationHeader {
+    margin-left: auto; /* Push to the right */
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.notificationHeader .heartbeat {
+    margin-right: 4px;
+    font-size: 0.8em;
+}
+
+.notificationHeader .state {
+    margin-right: 10px;
+    font-size: 0.9em;
+    color: #ccc;
+}
+
+/* Device Collection Grid */
+.deviceCollection {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -10px; /* Negative margin for gutter */
+}
+
+.deviceWrapper {
+    width: 100%;
+    padding: 0 10px;
+    margin-bottom: 20px;
+}
+
+@media (min-width: 768px) {
+    .deviceWrapper {
+        width: 50%;
+    }
+}
+
+@media (min-width: 992px) {
+    .deviceWrapper {
+        width: 33.333%;
+    }
+}
+
+/* Filter Buttons */
+.filterDevices {
+    padding: 10px 0 20px 0;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.filterDevices button {
+    width: 42px;
+    height: 42px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+/* Device Trigger Card */
+.deviceTrigger {
+    width: 100%;
+    margin-bottom: 0; /* Handled by wrapper */
+    color: #333;
+    position: relative;
+    padding: 15px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    min-height: 120px;
+}
+
+.deviceTrigger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.deviceTrigger.btn-success {
+    color: white;
+    border-color: transparent;
+}
+
+.deviceTrigger .location {
+    font-size: 24px; /* Larger icon */
+    color: #999;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+}
+
+.deviceTrigger .deviceName {
+    font-style: italic;
+    font-weight: bold;
+    color: #777;
+    font-size: 1.1em;
+    text-align: right;
+    margin-bottom: auto; /* Push content down */
+}
+
+.deviceTrigger.btn-success .deviceName {
+    color: #eee;
+}
+
+.deviceTrigger .content {
+    align-self: center;
+    margin: 15px 0;
+}
+
+.deviceTrigger .timeStamp {
+    align-self: flex-end;
+    color: #999;
+    font-size: 0.85em;
+}
+
+.deviceTrigger.btn-success .timeStamp {
+    color: #ddd;
+}
+
+/* Active Devices List */
+.activeDevices {
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.activeDevice {
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px; /* Pill shape */
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.activeDevice:hover {
+    opacity: 0.9;
+    text-decoration: none;
+    color: white;
+}
+
+.activeDevice .location {
+    margin-right: 8px;
+}
+
+.activeDevice .deviceName {
+    margin-right: 8px;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+/* Location Colors */
+.activeDevice.Bedroom, .deviceTrigger.Bedroom .location, .filterDevices button.Bedroom { color: yellowgreen; }
+.activeDevice.Bedroom { background-color: yellowgreen; color: white; }
+.filterDevices button.Bedroom.active { background-color: yellowgreen; color: white; border-color: yellowgreen; }
+.filterDevices button.Bedroom.active i { color: white; }
+
+.activeDevice.Lobby, .deviceTrigger.Lobby .location, .filterDevices button.Lobby { color: orange; }
+.activeDevice.Lobby { background-color: orange; color: white; }
+.filterDevices button.Lobby.active { background-color: orange; color: white; border-color: orange; }
+.filterDevices button.Lobby.active i { color: white; }
+
+.activeDevice.Bathroom, .deviceTrigger.Bathroom .location, .filterDevices button.Bathroom { color: dodgerblue; }
+.activeDevice.Bathroom { background-color: dodgerblue; color: white; }
+.filterDevices button.Bathroom.active { background-color: dodgerblue; color: white; border-color: dodgerblue; }
+.filterDevices button.Bathroom.active i { color: white; }
+
+.activeDevice.Living-room, .deviceTrigger.Living-room .location, .filterDevices button.Living-room { color: darkkhaki; }
+.activeDevice.Living-room { background-color: darkkhaki; color: white; }
+.filterDevices button.Living-room.active { background-color: darkkhaki; color: white; border-color: darkkhaki; }
+.filterDevices button.Living-room.active i { color: white; }
+
+.activeDevice.Kitchen, .deviceTrigger.Kitchen .location, .filterDevices button.Kitchen { color: indianred; }
+.activeDevice.Kitchen { background-color: indianred; color: white; }
+.filterDevices button.Kitchen.active { background-color: indianred; color: white; border-color: indianred; }
+.filterDevices button.Kitchen.active i { color: white; }
+
+.deviceTrigger.Garden .location, .filterDevices button.Garden { color: green; }
+.filterDevices button.Garden.active { background-color: green; color: white; border-color: green; }
+.filterDevices button.Garden.active i { color: white; }
+
+/* Override location color when active/success */
+.deviceTrigger.btn-success .location {
+    color: rgba(255,255,255,0.8);
+}
+
+/* Other Styles */
+.systemOverview > h1 {
+    font-style: italic;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+
+.fieldDetail label {
+    width: 40%;
+    font-weight: bold;
+}
+
+.instancesDetails > h2 {
+    font-size: 22px;
+    color: #007bff;
+}
+
+.unmapped > h2 {
+    font-size: 22px;
+    color: #fd7e14;
+}
+
+.deviceDetails {
+    margin-bottom: 15px;
+}
+
+.deviceDetails label {
+    margin-bottom: 0;
+    font-weight: bold;
 }

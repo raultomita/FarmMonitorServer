@@ -7,7 +7,7 @@ using StackExchange.Redis;
 namespace FMServer.Server.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class AdminController : ControllerBase
     {
         private static readonly List<string> supportedTypes = new List<string> { "switch", "toggleButton", "tankLevel", "watering", "led", "automaticTrigger", "distanceSensor" };
