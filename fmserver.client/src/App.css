@@ -110,9 +110,9 @@ body {
 }
 
 .deviceTrigger.btn-success {
-    color: #333;
-    background-color: #fff;
-    border: 2px solid #8dd49e;
+    color: white;
+    background-color: #28a745;
+    border: 2px solid #28a745;
     box-shadow: 0 4px 12px rgba(40, 167, 69, 0.5); /* Green glow for active state */
 }
 
@@ -132,7 +132,7 @@ body {
 }
 
 .deviceTrigger.btn-success .deviceName {
-    color: #777;
+    color: white;
 }
 
 .deviceTrigger .content {
@@ -147,7 +147,7 @@ body {
 }
 
 .deviceTrigger.btn-success .timeStamp {
-    color: #999;
+    color: rgba(255,255,255,0.8);
 }
 
 /* Active Devices List */
@@ -213,7 +213,7 @@ body {
 
 /* Override location color when active/success */
 .deviceTrigger.btn-success .location {
-    /* color: rgba(255,255,255,0.8); Removed to keep original color */
+    color: white;
 }
 
 /* Other Styles */
