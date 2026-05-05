@@ -1,286 +1,322 @@
-/* Global Styles */
-body {    
-    background-color: #f4f4f4;    
+/* ══════════════════════════════════════════════════
+   Global
+══════════════════════════════════════════════════ */
+body {
+    background-color: #f0f2f5;
+    color: #1a1a2e;
 }
 
-/* Header Styles */
-.mainHeader {
-    background-color: #3e3e3e;
-    color: white;
-    height: 40px;
-    margin-bottom: 10px;
-    position: relative;
-    border-radius: 4px;
-    padding: 0 15px;
-}
-
-.brand {
-    font-style: italic;
-    font-weight: bold;
-    color: lightgray;
-    font-size: 1.3em;
-    position: absolute;
-    top: 4px;
-    left: 15px;
-}
-
-/* Notification Styles */
-.notificationHeader {
-    text-align: right;
-    position: absolute;
-    top: 6px;
-    right: 6px;
-}
-
-.notificationHeader .heartbeat {
-    margin-right: 4px;
-    font-size: 0.8em;
-}
-
-.notificationHeader .state {
-    margin-right: 4px;
-    font-size: 0.9em;
-    color: #ccc;
-}
-
-/* Device Collection Grid */
-.locationGroup {
-    width: 100%;
-    margin-bottom: 20px;
-}
-
-.locationHeader {
-    margin: 10px 15px;
-    padding-bottom: 5px;
-    border-bottom: 1px solid #eee;
-    color: #666;
-    font-size: 1.2em;
-    font-weight: normal;
-}
-
-.deviceCollection {
+/* ══════════════════════════════════════════════════
+   App Navigation
+══════════════════════════════════════════════════ */
+.app-nav {
     display: flex;
-    flex-wrap: wrap;    
-    padding-left:5px;
-    padding-right: 5px;
+    align-items: center;
+    justify-content: space-between;
+    background: #1e293b;
+    padding: 0 16px;
+    height: 52px;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
 }
 
-.deviceWrapper {
-   width: 33.33%;
-   padding: 5px;
-   max-width: 150px;
+.app-nav-brand {
+    font-size: 1.1em;
+    font-weight: 700;
+    color: #e2e8f0;
+    letter-spacing: 0.02em;
 }
 
-
-/* Filter Buttons */
-.filterDevices {
-    padding: 10px 7px 20px 7px;
-    text-align: center;
+.app-nav-links {
+    display: flex;
+    gap: 4px;
 }
 
-.filterDevices button {
-    width: 42px;
-    height: 42px;
-    font-size: 16px;
-    margin: 0 5px 0 5px;
-    border-radius: 4px;
-    transition: all 0.2s;
+.app-nav-link {
+    color: #94a3b8;
+    text-decoration: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 0.9em;
+    font-weight: 500;
+    transition: background 0.15s, color 0.15s;
 }
+.app-nav-link:hover { background: rgba(255,255,255,0.08); color: #e2e8f0; }
+.app-nav-link.active { background: rgba(255,255,255,0.12); color: #fff; }
 
-/* Device Trigger Card */
-.deviceTrigger {
+.app-main {
     width: 100%;
-    margin-bottom: 0; /* Handled by wrapper */
-    color: #333;
-    position: relative;
-    padding: 5px 10px; /* Reduced padding for mobile */
-    border-radius: 8px;
-    border: none;
-    background-color: #fff;
-    cursor: pointer;
-    transition: all 0.3s ease;
+}
+
+/* ══════════════════════════════════════════════════
+   Home Page
+══════════════════════════════════════════════════ */
+.home-page {
     display: flex;
     flex-direction: column;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    width: 100%;
 }
 
-.deviceTrigger:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+.home-loading {
+    padding: 40px;
+    text-align: center;
+    color: #64748b;
 }
 
-.deviceTrigger.btn-success {
-    color: white;
-    background-color: #28a745;
-    border: 2px solid #28a745;
-    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.5); /* Green glow for active state */
+/* Filter row */
+.home-filters {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 10px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    background: #fff;
+    border-bottom: 1px solid #e2e8f0;
 }
+.home-filters::-webkit-scrollbar { display: none; }
 
-.deviceTrigger .location {
-    color: #999;
-    position: absolute;
-    top: 2px;
-    left: 10px;
-}
-
-.deviceTrigger .deviceName {
-    font-style: italic;
-    font-weight: bold;
-    font-size: 0.85em;
-    color: #777;
-    text-align: right;
-}
-
-.deviceTrigger.btn-success .deviceName {
-    color: white;
-}
-
-.deviceTrigger .content {
-    align-self: center;
-    margin: 5px 0;
-}
-
-.deviceTrigger .timeStamp {
-    align-self: flex-end;
-    color: #999;
-    font-size: 0.85em;
-}
-
-.deviceTrigger.btn-success .timeStamp {
-    color: rgba(255,255,255,0.8);
-}
-
-/* Active Devices List */
-.activeDevices {
-    margin-bottom: 15px;
-}
-
-.activeDevice {
-    color: white;
-    margin: 3px;
-    padding: 3px 6px;
-    border-radius: 4px;
-    display: inline-block;
+/* icon-only circle */
+.filter-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px solid #e2e8f0;
+    background: transparent;
+    color: #64748b;
+    font-size: 1em;
     cursor: pointer;
-    transition: opacity 0.2s;
+    transition: all 0.15s;
+    flex-shrink: 0;
+}
+.filter-btn:hover { border-color: #94a3b8; color: #1e293b; }
+.filter-btn.active {
+    background: #1e293b;
+    border-color: #1e293b;
+    color: #fff;
 }
 
-.activeDevice:hover {
-    opacity: 0.9;
-    text-decoration: none;
-    color: white;
+/* "All" button keeps text */
+.filter-btn-all {
+    gap: 5px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.82em;
+    font-weight: 700;
 }
 
-.activeDevice .location {
-    margin-right: 8px;
+/* icon-only square/round */
+.filter-btn-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    padding: 0;
 }
 
-.activeDevice .deviceName {
-    margin-right: 8px;
-    font-weight: bold;
-    font-size: 0.9em;
+/* Location accent colours — inactive: tinted border + icon; active: filled */
+.filter-btn.Bedroom     { border-color: #6b7c5a; color: #6b7c5a; }
+.filter-btn.Bathroom    { border-color: #2e6da4; color: #2e6da4; }
+.filter-btn.Kitchen     { border-color: #b45309; color: #b45309; }
+.filter-btn.Living-room { border-color: #7c6f1e; color: #7c6f1e; }
+.filter-btn.Lobby       { border-color: #6b5b7b; color: #6b5b7b; }
+.filter-btn.Garden      { border-color: #16a34a; color: #16a34a; }
+
+.filter-btn.Bedroom.active     { background: #6b7c5a; border-color: #6b7c5a; color: #fff; }
+.filter-btn.Bathroom.active    { background: #2e6da4; border-color: #2e6da4; color: #fff; }
+.filter-btn.Kitchen.active     { background: #b45309; border-color: #b45309; color: #fff; }
+.filter-btn.Living-room.active { background: #7c6f1e; border-color: #7c6f1e; color: #fff; }
+.filter-btn.Lobby.active       { background: #6b5b7b; border-color: #6b5b7b; color: #fff; }
+.filter-btn.Garden.active      { background: #16a34a; border-color: #16a34a; color: #fff; }
+
+/* Status indicators in filter row */
+.filter-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: auto;
+    flex-shrink: 0;
 }
 
-/* Location Colors */
-.activeDevice.Bedroom, .deviceTrigger.Bedroom .location, .filterDevices button.Bedroom { color: yellowgreen; }
-.activeDevice.Bedroom { background-color: yellowgreen; color: white; border: none; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
-.filterDevices button.Bedroom.active { background-color: yellowgreen; color: white; border-color: yellowgreen; }
-.filterDevices button.Bedroom.active i { color: white; }
+.hb-dot, .conn-dot {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 0.65em;
+    font-weight: 700;
+    color: #64748b;
+}
+.hb-dot-circle, .conn-dot-circle {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.hb-dot.alive .hb-dot-circle  { background: #16a34a; }
+.hb-dot.dead  .hb-dot-circle  { background: #dc2626; }
+.hb-dot.alive .hb-dot-label   { color: #16a34a; }
+.hb-dot.dead  .hb-dot-label   { color: #dc2626; }
 
-.activeDevice.Lobby, .deviceTrigger.Lobby .location, .filterDevices button.Lobby { color: orange; }
-.activeDevice.Lobby { background-color: orange; color: white; border: none; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
-.filterDevices button.Lobby.active { background-color: orange; color: white; border-color: orange; }
-.filterDevices button.Lobby.active i { color: white; }
+.conn-dot.ok  .conn-dot-circle { background: #16a34a; }
+.conn-dot.err .conn-dot-circle { background: #dc2626; }
+.conn-dot.ok  .conn-dot-label  { color: #16a34a; }
+.conn-dot.err .conn-dot-label  { color: #dc2626; }
 
-.activeDevice.Bathroom, .deviceTrigger.Bathroom .location, .filterDevices button.Bathroom { color: dodgerblue; }
-.activeDevice.Bathroom { background-color: dodgerblue; color: white; border: none; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
-.filterDevices button.Bathroom.active { background-color: dodgerblue; color: white; border-color: dodgerblue; }
-.filterDevices button.Bathroom.active i { color: white; }
-
-.activeDevice.Living-room, .deviceTrigger.Living-room .location, .filterDevices button.Living-room { color: darkkhaki; }
-.activeDevice.Living-room { background-color: darkkhaki; color: white; border: none; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
-.filterDevices button.Living-room.active { background-color: darkkhaki; color: white; border-color: darkkhaki; }
-.filterDevices button.Living-room.active i { color: white; }
-
-.activeDevice.Kitchen, .deviceTrigger.Kitchen .location, .filterDevices button.Kitchen { color: indianred; }
-.activeDevice.Kitchen { background-color: indianred; color: white; border: none; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
-.filterDevices button.Kitchen.active { background-color: indianred; color: white; border-color: indianred; }
-.filterDevices button.Kitchen.active i { color: white; }
-
-.deviceTrigger.Garden .location, .filterDevices button.Garden { color: green; }
-.filterDevices button.Garden.active { background-color: green; color: white; border-color: green; }
-.filterDevices button.Garden.active i { color: white; }
-
-/* Override location color when active/success */
-.deviceTrigger.btn-success .location {
-    color: white;
+/* Active devices strip */
+.home-active-strip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    background: #fff8ed;
+    border-bottom: 1px solid #fde68a;
+    flex-wrap: wrap;
 }
 
-/* Other Styles */
-.systemOverview > h1 {
-    font-style: italic;
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
+.home-active-label {
+    font-size: 0.72em;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #92400e;
+    letter-spacing: 0.06em;
 }
 
-.fieldDetail label {
-    width: 40%;
-    font-weight: bold;
+.active-device-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: none;
+    font-size: 0.82em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    background: #fef3c7;
+    color: #78350f;
+}
+.active-device-pill:hover { opacity: 0.8; }
+.active-device-pill:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* Location group */
+.home-device-groups { padding: 8px 10px 20px; }
+
+.home-location-group { margin-bottom: 16px; }
+
+.home-location-header {
+    font-size: 0.8em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #64748b;
+    margin: 0 0 8px 2px;
 }
 
-.instancesDetails > h2 {
-    font-size: 22px;
-    color: #007bff;
+/* Device grid */
+.home-device-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 8px;
 }
 
-.unmapped > h2 {
-    font-size: 22px;
-    color: #fd7e14;
+/* Device card */
+.device-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 8px 10px;
+    border-radius: 14px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    text-align: center;
+    font-family: inherit;
+    gap: 6px;
+    min-height: 110px;
+}
+.device-card:hover { transform: translateY(-2px); }
+.device-card:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+.device-card.off {
+    background: #fff;
+    border-color: #e2e8f0;
+    color: #64748b;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.device-card.on {
+    background: #1e293b;
+    border-color: #1e293b;
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(30,41,59,0.35);
 }
 
-.deviceDetails {
-    margin-bottom: 15px;
+.device-card-location { font-size: 1.4em; line-height: 1; }
+.device-card-name {
+    font-size: 0.76em;
+    font-weight: 600;
+    line-height: 1.2;
+    word-break: break-word;
+}
+.device-card-icon { font-size: 1.1em; }
+.device-card-icon .fa-power-off       { color: #cbd5e1; }
+.device-card-icon .fa-power-off.on    { color: #4ade80; }
+.device-card-time {
+    font-size: 0.65em;
+    opacity: 0.6;
 }
 
-.deviceDetails label {
-    margin-bottom: 0;
-    font-weight: bold;
+/* Location accent colour on ON state */
+.device-card.on.Bedroom     { background: #4a5c38; border-color: #4a5c38; }
+.device-card.on.Bathroom    { background: #1a4a7a; border-color: #1a4a7a; }
+.device-card.on.Kitchen     { background: #7c3a0e; border-color: #7c3a0e; }
+.device-card.on.Living-room { background: #5a4e10; border-color: #5a4e10; }
+.device-card.on.Lobby       { background: #4a3a5c; border-color: #4a3a5c; }
+.device-card.on.Garden      { background: #0f5c2a; border-color: #0f5c2a; }
+
+/* ══════════════════════════════════════════════════
+   Admin Page
+══════════════════════════════════════════════════ */
+.admin-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 14px 10px;
+    background: #fff;
+    border-bottom: 1px solid #e2e8f0;
 }
 
-/* ── Admin page ─────────────────────────────────────────────────────────── */
+.admin-page-title {
+    margin: 0;
+    font-size: 1.2em;
+    font-weight: 700;
+    color: #1e293b;
+}
 
-/* Add Device button in header */
 .admin-add-btn {
-    position: absolute;
-    top: 6px;
-    right: 10px;
-    background: #4caf7d;
+    background: #16a34a;
     color: white;
     border: none;
-    border-radius: 6px;
-    padding: 4px 12px;
+    border-radius: 8px;
+    padding: 7px 14px;
     font-size: 0.85em;
-    font-weight: bold;
+    font-weight: 600;
     cursor: pointer;
     transition: background 0.2s;
 }
-.admin-add-btn:hover { background: #3a9a68; }
+.admin-add-btn:hover { background: #15803d; }
 
 .admin-loading {
     padding: 40px;
     text-align: center;
-    color: #888;
+    color: #64748b;
 }
 
-.admin-body {
-    padding: 12px 10px;
-}
+.admin-body { padding: 12px 10px; }
 
-/* Section (per instance) */
-.admin-section {
-    margin-bottom: 28px;
-}
+/* Section */
+.admin-section { margin-bottom: 24px; }
 
 .admin-section-header {
     display: flex;
@@ -288,14 +324,14 @@ body {
     gap: 8px;
     margin-bottom: 10px;
     padding-bottom: 6px;
-    border-bottom: 2px solid #eee;
+    border-bottom: 2px solid #e2e8f0;
 }
 
 .admin-section-badge {
-    font-size: 0.7em;
-    font-weight: bold;
+    font-size: 0.68em;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
     padding: 2px 8px;
     border-radius: 20px;
 }
@@ -304,44 +340,40 @@ body {
 
 .admin-section-title {
     margin: 0;
-    font-size: 1.1em;
+    font-size: 1em;
     font-weight: 600;
-    color: #333;
+    color: #1e293b;
 }
 
 /* Device grid */
 .admin-device-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 10px;
 }
 
 /* Device card */
 .admin-device-card {
     background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 1px 6px rgba(0,0,0,0.09);
+    border-radius: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
     overflow: hidden;
     display: flex;
     flex-direction: column;
     transition: box-shadow 0.2s;
 }
-.admin-device-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.13); }
+.admin-device-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.11); }
 
 .admin-device-card-header {
     display: flex;
     align-items: center;
     gap: 8px;
     padding: 10px 12px 8px;
-    background: #f8f9fb;
-    border-bottom: 1px solid #eee;
+    background: #f8fafc;
+    border-bottom: 1px solid #f1f5f9;
 }
 
-.admin-device-icon {
-    font-size: 1.4em;
-    line-height: 1;
-    flex-shrink: 0;
-}
+.admin-device-icon { font-size: 1.3em; flex-shrink: 0; }
 
 .admin-device-title {
     flex: 1;
@@ -350,21 +382,22 @@ body {
     flex-direction: column;
 }
 .admin-device-title strong {
-    font-size: 0.9em;
+    font-size: 0.88em;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: #1e293b;
 }
 .admin-device-title small {
-    font-size: 0.72em;
-    color: #999;
+    font-size: 0.7em;
+    color: #94a3b8;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
 .admin-device-location {
-    font-size: 0.7em;
+    font-size: 0.68em;
     background: #e0f2fe;
     color: #0369a1;
     border-radius: 10px;
@@ -385,32 +418,21 @@ body {
     align-items: baseline;
     gap: 6px;
     padding: 3px 0;
-    border-bottom: 1px solid #f3f4f6;
-    font-size: 0.8em;
+    border-bottom: 1px solid #f8fafc;
+    font-size: 0.78em;
 }
 .admin-field-row:last-child { border-bottom: none; }
 
-.admin-field-name {
-    color: #6b7280;
-    font-weight: 600;
-    min-width: 0;
-    flex-shrink: 0;
-}
+.admin-field-name  { color: #94a3b8; font-weight: 600; flex-shrink: 0; }
+.admin-field-value { color: #1e293b; text-align: right; word-break: break-word; }
 
-.admin-field-value {
-    color: #111;
-    text-align: right;
-    min-width: 0;
-    word-break: break-word;
-}
-
-/* Card action buttons */
+/* Card actions */
 .admin-device-actions {
     display: flex;
     gap: 6px;
-    padding: 8px 12px;
-    background: #f8f9fb;
-    border-top: 1px solid #eee;
+    padding: 8px 10px;
+    background: #f8fafc;
+    border-top: 1px solid #f1f5f9;
 }
 
 .admin-btn-edit, .admin-btn-delete {
@@ -418,21 +440,22 @@ body {
     padding: 5px 0;
     border: none;
     border-radius: 6px;
-    font-size: 0.78em;
+    font-size: 0.76em;
     font-weight: 600;
     cursor: pointer;
-    transition: opacity 0.2s;
+    transition: opacity 0.15s;
 }
-.admin-btn-edit   { background: #e0f2fe; color: #0369a1; }
+.admin-btn-edit   { background: #dbeafe; color: #1d4ed8; }
 .admin-btn-delete { background: #fee2e2; color: #b91c1c; }
-.admin-btn-edit:hover   { opacity: 0.8; }
-.admin-btn-delete:hover { opacity: 0.8; }
+.admin-btn-edit:hover, .admin-btn-delete:hover { opacity: 0.75; }
 
-/* ── Device Form Modal ───────────────────────────────────────────────────── */
+/* ══════════════════════════════════════════════════
+   Device Form Modal
+══════════════════════════════════════════════════ */
 .modal-backdrop {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(15,23,42,0.6);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -442,10 +465,10 @@ body {
 
 .modal-dialog {
     background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 8px 40px rgba(0,0,0,0.2);
+    border-radius: 14px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
     width: 100%;
-    max-width: 480px;
+    max-width: 460px;
     max-height: 90vh;
     overflow-y: auto;
     padding: 24px;
@@ -453,41 +476,42 @@ body {
 
 .modal-dialog h5 {
     margin: 0 0 20px;
-    font-size: 1.1em;
+    font-size: 1.05em;
     font-weight: 700;
-    color: #111;
+    color: #1e293b;
 }
 
 .modal-dialog .form-group { margin-bottom: 14px; }
 
 .modal-dialog label {
     display: block;
-    font-size: 0.78em;
-    font-weight: 600;
-    color: #6b7280;
+    font-size: 0.72em;
+    font-weight: 700;
+    color: #64748b;
     margin-bottom: 4px;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.05em;
 }
 
 .modal-dialog .form-control {
     width: 100%;
-    padding: 7px 10px;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
+    padding: 8px 10px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 8px;
     font-size: 0.9em;
     box-sizing: border-box;
-    transition: border-color 0.15s;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    background: #f8fafc;
 }
 .modal-dialog .form-control:focus {
     outline: none;
     border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
 }
-
 .modal-dialog .form-control:disabled {
-    background: #f3f4f6;
-    color: #9ca3af;
+    background: #f1f5f9;
+    color: #94a3b8;
 }
 
 .modal-form-actions {
@@ -498,37 +522,47 @@ body {
 
 .modal-btn-save {
     flex: 1;
-    padding: 9px;
-    background: #3b82f6;
-    color: white;
+    padding: 10px;
+    background: #1e293b;
+    color: #fff;
     border: none;
-    border-radius: 7px;
-    font-weight: 600;
+    border-radius: 8px;
+    font-weight: 700;
     font-size: 0.9em;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: background 0.15s;
 }
-.modal-btn-save:hover:not(:disabled) { background: #2563eb; }
-.modal-btn-save:disabled { opacity: 0.5; cursor: not-allowed; }
+.modal-btn-save:hover:not(:disabled) { background: #0f172a; }
+.modal-btn-save:disabled { opacity: 0.45; cursor: not-allowed; }
 
 .modal-btn-cancel {
-    padding: 9px 16px;
-    background: #f3f4f6;
-    color: #374151;
+    padding: 10px 18px;
+    background: #f1f5f9;
+    color: #475569;
     border: none;
-    border-radius: 7px;
+    border-radius: 8px;
     font-weight: 600;
     font-size: 0.9em;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: background 0.15s;
 }
-.modal-btn-cancel:hover { background: #e5e7eb; }
+.modal-btn-cancel:hover { background: #e2e8f0; }
 
 .modal-error {
     margin-top: 12px;
+    padding: 10px 12px;
+    background: #fee2e2;
+    color: #b91c1c;
+    border-radius: 8px;
+    font-size: 0.84em;
+}
+
+/* Shared alert */
+.messagesHeader {
     padding: 8px 12px;
     background: #fee2e2;
     color: #b91c1c;
-    border-radius: 6px;
-    font-size: 0.85em;
+    border-radius: 8px;
+    font-size: 0.84em;
+    margin-bottom: 10px;
 }

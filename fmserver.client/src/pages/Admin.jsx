@@ -52,8 +52,8 @@ function Admin() {
 
     return (
         <>
-            <div className="mainHeader">
-                <span className="brand">Admin</span>
+            <div className="admin-page-header">
+                <h2 className="admin-page-title">Devices</h2>
                 <button className="admin-add-btn" onClick={() => setFormState({})}>+ Add Device</button>
             </div>
 

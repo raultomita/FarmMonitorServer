@@ -1,115 +1,86 @@
 import React, { useState, useEffect } from 'react';
 
-const LocationIcon = ({ location }) => {
-    switch (location) {
-        case "Bedroom": return <i className="fa fa-bed" aria-hidden="true"></i>;
-        case "Bathroom": return <i className="fa fa-bath" aria-hidden="true"></i>;
-        case "Kitchen": return <i className="fa fa-cutlery" aria-hidden="true"></i>;
-        case "Living-room": return <i className="fa fa-television" aria-hidden="true"></i>;
-        case "Lobby": return <i className="fa fa-archive" aria-hidden="true"></i>;
-        default: return <i> </i>;
-    }
+const LOCATION_EMOJI = {
+    Bedroom: '🛏',
+    Bathroom: '🚿',
+    Kitchen: '🍳',
+    'Living-room': '📺',
+    Lobby: '🚪',
+    Garden: '🌱',
 };
 
 const useTimeAgo = (timeStamp) => {
-    const [timeMessage, setTimeMessage] = useState("");
+    const [msg, setMsg] = useState('');
 
     useEffect(() => {
-        const calculateTimeAgo = () => {
-            const seconds = Math.floor((Date.now() - Date.parse(timeStamp)) / 1000);
-            if (seconds < 60) return seconds + " sec ago";
-            if (seconds < 3600) return Math.floor(seconds / 60) + " min ago";
-            if (seconds < 86400) return Math.floor(seconds / 3600) + " hour ago";
-            return Math.floor(seconds / 86400) + " day ago";
+        const calc = () => {
+            const s = Math.floor((Date.now() - Date.parse(timeStamp)) / 1000);
+            if (s < 60) return `${s}s ago`;
+            if (s < 3600) return `${Math.floor(s / 60)}m ago`;
+            if (s < 86400) return `${Math.floor(s / 3600)}h ago`;
+            return `${Math.floor(s / 86400)}d ago`;
         };
-
-        setTimeMessage(calculateTimeAgo());
-        
-        const interval = setInterval(() => {
-            setTimeMessage(calculateTimeAgo());
-        }, 60000); // Update every minute
-
-        return () => clearInterval(interval);
+        setMsg(calc());
+        const id = setInterval(() => setMsg(calc()), 60000);
+        return () => clearInterval(id);
     }, [timeStamp]);
 
-    return timeMessage;
+    return msg;
 };
 
-export function DeviceTrigger(props) {
-    const [isBusy, setIsBusy] = useState(false);
-    const timeStampMessage = useTimeAgo(props.timeStamp);
-
-    // Reset busy state when props change (simulating componentWillReceiveProps)
-    useEffect(() => {
+async function toggle(id, setIsBusy) {
+    setIsBusy(true);
+    try {
+        await fetch(`/api/devices/${id}`, {
+            method: 'PUT',
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        });
+    } catch (e) {
+        console.error('Failed to update device', e);
         setIsBusy(false);
-    }, [props.id, props.state, props.timeStamp]);
+    }
+}
 
-    const changeState = async () => {
-        setIsBusy(true);
-        try {
-            await fetch('/api/devices/' + props.id, {
-                method: 'PUT',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                }
-            });
-        } catch (error) {
-            console.error("Failed to update device", error);
-            setIsBusy(false);
-        }
-    };
+export function DeviceTrigger({ id, display, location, state, timeStamp, googleType }) {
+    const [isBusy, setIsBusy] = useState(false);
+    const timeAgo = useTimeAgo(timeStamp);
+    const isOn = state === '1';
 
-    const actionIcon = isBusy ? 
-        <i className="fa fa-circle-o-notch fa-spin fa-lg"></i> : 
-        <i className="fa fa-power-off fa-lg"></i>;
-    
-    let className = props.state === "1" ? "btn btn-success deviceTrigger " : "btn btn-outline-success deviceTrigger ";
-    className += props.location;
+    useEffect(() => { setIsBusy(false); }, [id, state, timeStamp]);
 
     return (
-        <div className={className} onClick={changeState}>
-            <div className="location"><LocationIcon location={props.location} /></div>
-            <div className="deviceName">{props.display}</div>
-            <div className="content">{actionIcon}</div>
-            <div className="timeStamp">{timeStampMessage}</div>
-        </div>
+        <button
+            className={`device-card ${isOn ? 'on' : 'off'} ${location}`}
+            onClick={() => toggle(id, setIsBusy)}
+            disabled={isBusy}
+        >
+            <span className="device-card-location">{LOCATION_EMOJI[location] || '📦'}</span>
+            <span className="device-card-name">{display}</span>
+            <span className="device-card-icon">
+                {isBusy
+                    ? <i className="fa fa-circle-o-notch fa-spin" />
+                    : <i className={`fa fa-power-off ${isOn ? 'on' : ''}`} />
+                }
+            </span>
+            <span className="device-card-time">{timeAgo}</span>
+        </button>
     );
 }
 
-export function ActiveDevice(props) {
+export function ActiveDevice({ id, display, location, state }) {
     const [isBusy, setIsBusy] = useState(false);
 
-    // Reset busy state when props change
-    useEffect(() => {
-        setIsBusy(false);
-    }, [props.id, props.state, props.timeStamp]);
-
-    const changeState = async () => {
-        setIsBusy(true);
-        try {
-            await fetch('/api/devices/' + props.id, {
-                method: 'PUT',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                }
-            });
-        } catch (error) {
-            console.error("Failed to update device", error);
-            setIsBusy(false);
-        }
-    };
-
-    const actionIcon = isBusy ? <i className="fa fa-circle-o-notch fa-spin fa-lg"></i> : "";
-    let className = "btn btn-outline-success activeDevice ";
-    className += props.location;
+    useEffect(() => { setIsBusy(false); }, [id, state]);
 
     return (
-        <span className={className} onClick={changeState}>
-            <span className="location"><LocationIcon location={props.location} /></span>
-            <span className="deviceName">{props.display}</span>
-            <span className="content">{actionIcon}</span>
-        </span>
+        <button
+            className={`active-device-pill ${location}`}
+            onClick={() => toggle(id, setIsBusy)}
+            disabled={isBusy}
+        >
+            <span>{LOCATION_EMOJI[location] || '📦'}</span>
+            <span>{display}</span>
+            {isBusy && <i className="fa fa-circle-o-notch fa-spin" />}
+        </button>
     );
 }

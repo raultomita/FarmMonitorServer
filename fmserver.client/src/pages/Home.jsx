@@ -3,115 +3,99 @@ import { DeviceTrigger, ActiveDevice } from '../components/devices/DeviceTrigger
 import { Notifications } from '../components/Notifications';
 import { FilterButton } from '../components/FilterButton';
 
+const FILTERS = [
+    { type: 'All',         symbol: 'fa-th-large',   label: 'All' },
+    { type: 'Bedroom',     symbol: 'fa-bed',         label: 'Bedroom' },
+    { type: 'Bathroom',    symbol: 'fa-bath',        label: 'Bathroom' },
+    { type: 'Kitchen',     symbol: 'fa-cutlery',     label: 'Kitchen' },
+    { type: 'Living-room', symbol: 'fa-television',  label: 'Living room' },
+    { type: 'Lobby',       symbol: 'fa-archive',     label: 'Lobby' },
+    { type: 'Garden',      symbol: 'fa-leaf',        label: 'Garden' },
+];
+
 function Home() {
     const [devices, setDevices] = useState([]);
-    const [activeFilter, setActiveFilter] = useState("All");
+    const [activeFilter, setActiveFilter] = useState('All');
     const [loading, setLoading] = useState(true);
+    const [connStatus, setConnStatus] = useState({ isConnected: false, status: '', heartbeats: [] });
 
-    // Fetch devices on mount
     useEffect(() => {
         fetch('/api/devices')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
+            .then(r => { if (!r.ok) throw new Error(); return r.json(); })
             .then(data => {
-                // Sort devices by location
-                const sortedDevices = data.sort((first, second) => {
-                    if (first.location > second.location) return 1;
-                    if (first.location < second.location) return -1;
-                    return 0;
-                });
-                setDevices(sortedDevices);
+                setDevices(data.sort((a, b) => a.location > b.location ? 1 : a.location < b.location ? -1 : 0));
                 setLoading(false);
             })
-            .catch(error => {
-                console.error("Failed to fetch devices:", error);
-                setLoading(false);
-            });
+            .catch(() => setLoading(false));
     }, []);
 
-    // Update device handler
     const updateDevice = useCallback((device) => {
-        setDevices(currentDevices =>
-            currentDevices.map(d => d.id === device.id ? device : d)
-        );
+        setDevices(cur => cur.map(d => d.id === device.id ? device : d));
     }, []);
 
-    // Filter handlers
-    const resetFilter = useCallback(() => {
-        setActiveFilter("All");
-    }, []);
+    const filteredDevices = useMemo(() =>
+        activeFilter === 'All' ? devices : devices.filter(d => d.location === activeFilter),
+        [devices, activeFilter]
+    );
 
-    const filter = useCallback((type) => {
-        setActiveFilter(type);
-    }, []);
-
-    // Derived state
-    const filteredDevices = useMemo(() => {
-        if (activeFilter === "All") {
-            return devices;
-        }
-        return devices.filter(d => d.location === activeFilter);
-    }, [devices, activeFilter]);
-
-    const activeDevices = useMemo(() => {
-        return filteredDevices.filter(d => d.state === "1");
-    }, [filteredDevices]);
+    const activeDevices = useMemo(() => filteredDevices.filter(d => d.state === '1'), [filteredDevices]);
 
     const groupedDevices = useMemo(() => {
         const groups = {};
-        filteredDevices.forEach(device => {
-            if (!groups[device.location]) {
-                groups[device.location] = [];
-            }
-            groups[device.location].push(device);
+        filteredDevices.forEach(d => {
+            if (!groups[d.location]) groups[d.location] = [];
+            groups[d.location].push(d);
         });
         return groups;
     }, [filteredDevices]);
 
-    if (loading) {
-        return <p><em>Loading...</em></p>;
-    }
+    if (loading) return <div className="home-loading"><em>Loading devices…</em></div>;
 
     return (
-        <>
-            <div className="mainHeader">
-                <span className="brand">Home</span>
-                <Notifications onDeviceReceived={updateDevice} />
-            </div>
-            <div className="filterDevices">
-                <FilterButton type="All" onClick={resetFilter} symbol="fa-th-large" state={activeFilter} />
-                <FilterButton type="Bedroom" onClick={filter} symbol="fa-bed" state={activeFilter} />
-                <FilterButton type="Bathroom" onClick={filter} symbol="fa-bath" state={activeFilter} />
-                <FilterButton type="Kitchen" onClick={filter} symbol="fa-cutlery" state={activeFilter} />
-                <FilterButton type="Living-room" onClick={filter} symbol="fa-television" state={activeFilter} />
-                <FilterButton type="Lobby" onClick={filter} symbol="fa-archive" state={activeFilter} />
-            </div>
-            {activeDevices.length > 0 && (
-                <div className="activeDevices">
-                    {activeDevices.map(device => (
-                        <ActiveDevice key={device.id} {...device} />
+        <div className="home-page">
+            <Notifications onDeviceReceived={updateDevice} onStatusChange={setConnStatus} />
+
+            <div className="home-filters">
+                {FILTERS.map(f => (
+                    <FilterButton key={f.type} type={f.type} label={f.label} symbol={f.symbol}
+                        state={activeFilter} onClick={setActiveFilter} />
+                ))}
+                <div className="filter-status">
+                    {connStatus.heartbeats.map(hb => (
+                        <span key={hb.hostName} className={`hb-dot ${hb.isDead ? 'dead' : 'alive'}`}
+                              title={hb.hostName}>
+                            <span className="hb-dot-circle" />
+                            <span className="hb-dot-label">{hb.hostName.slice(0, 4)}</span>
+                        </span>
                     ))}
+                    <span className={`conn-dot ${connStatus.isConnected ? 'ok' : 'err'}`}
+                          title={connStatus.isConnected ? 'Connected' : (connStatus.status || 'Disconnected')}>
+                        <span className="conn-dot-circle" />
+                        <span className="conn-dot-label">{connStatus.isConnected ? 'live' : (connStatus.status || 'off').slice(0,4).toLowerCase()}</span>
+                    </span>
+                </div>
+            </div>
+
+            {activeDevices.length > 0 && (
+                <div className="home-active-strip">
+                    <span className="home-active-label">On now</span>
+                    {activeDevices.map(d => <ActiveDevice key={d.id} {...d} />)}
                 </div>
             )}
-            <div className="deviceGroups">
-                {Object.entries(groupedDevices).map(([location, devices]) => (
-                    <div key={location} className="locationGroup">
-                        {activeFilter === "All" && <h3 className="locationHeader">{location}</h3>}
-                        <div className="deviceCollection">
-                            {devices.map(device => (
-                                <div key={device.id} className="deviceWrapper">
-                                    <DeviceTrigger {...device} />
-                                </div>
+
+            <div className="home-device-groups">
+                {Object.entries(groupedDevices).map(([location, devs]) => (
+                    <div key={location} className="home-location-group">
+                        {activeFilter === 'All' && <h3 className="home-location-header">{location}</h3>}
+                        <div className="home-device-grid">
+                            {devs.map(d => (
+                                <DeviceTrigger key={d.id} {...d} />
                             ))}
                         </div>
                     </div>
                 ))}
             </div>
-        </>
+        </div>
     );
 }
 
