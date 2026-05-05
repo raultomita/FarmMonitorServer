@@ -13,5 +13,7 @@ namespace FMServer.Server.Database
         RedisType GetType(string key);
         List<string> GetInstanceDeviceIds(string key);
         (string fieldName, string value)[] GetHashFields(string key);
+        void SaveDevice(string instanceId, string deviceId, Dictionary<string, string> fields);
+        void DeleteDevice(string instanceId, string deviceId);
     }
 }

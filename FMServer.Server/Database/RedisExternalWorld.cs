@@ -99,6 +99,19 @@ namespace FMServer.Server.Database
             subscriber.Publish(CommandsChannel, id);
         }
 
+        public void SaveDevice(string instanceId, string deviceId, Dictionary<string, string> fields)
+        {
+            var entries = fields.Select(kv => new HashEntry(kv.Key, kv.Value)).ToArray();
+            database.HashSet(deviceId, entries);
+            database.SetAdd(instanceId, deviceId);
+        }
+
+        public void DeleteDevice(string instanceId, string deviceId)
+        {
+            database.SetRemove(instanceId, deviceId);
+            database.KeyDelete(deviceId);
+        }
+
         public async Task SubscribeAsync(Action<RedisChannel, RedisValue> subscriptionHandler)
         {
             await connection.GetSubscriber().SubscribeAsync(NotificationsChannel, subscriptionHandler);

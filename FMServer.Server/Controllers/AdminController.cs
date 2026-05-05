@@ -1,7 +1,6 @@
-﻿using FMServer.Server.Database;
+using FMServer.Server.Database;
 using FMServer.Server.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using StackExchange.Redis;
 
 namespace FMServer.Server.Controllers
@@ -10,7 +9,7 @@ namespace FMServer.Server.Controllers
     [Route("api/[controller]")]
     public class AdminController : ControllerBase
     {
-        private static readonly List<string> supportedTypes = new List<string> { "switch", "toggleButton", "tankLevel", "watering", "led", "automaticTrigger", "distanceSensor" };
+        private static readonly List<string> supportedTypes = new List<string> { "switch", "toggleButton", "tankLevel", "watering", "led", "automaticTrigger", "distanceSensor", "scheduledTrigger" };
         private static readonly List<string> supportedLocations = new List<string> { "Bedroom", "Bathroom", "Living-room", "Kitchen", "Garden", "Lobby" };
 
         private readonly IExternalWorld externalWorld;
@@ -148,7 +147,39 @@ namespace FMServer.Server.Controllers
             }
 
             return Ok(devicesOverview);
+        }
 
+        [HttpPost("devices")]
+        public IActionResult CreateDevice([FromBody] SaveDeviceRequest request)
+        {
+            if (string.IsNullOrWhiteSpace(request.DeviceId))
+                return BadRequest("DeviceId is required.");
+            if (string.IsNullOrWhiteSpace(request.InstanceId))
+                return BadRequest("InstanceId is required.");
+            if (request.Fields == null || !request.Fields.ContainsKey("type"))
+                return BadRequest("Fields must include at least 'type'.");
+
+            externalWorld.SaveDevice(request.InstanceId, request.DeviceId, request.Fields);
+            return Ok();
+        }
+
+        [HttpPut("devices/{deviceId}")]
+        public IActionResult UpdateDevice(string deviceId, [FromBody] SaveDeviceRequest request)
+        {
+            if (string.IsNullOrWhiteSpace(request.InstanceId))
+                return BadRequest("InstanceId is required.");
+            if (request.Fields == null || !request.Fields.ContainsKey("type"))
+                return BadRequest("Fields must include at least 'type'.");
+
+            externalWorld.SaveDevice(request.InstanceId, deviceId, request.Fields);
+            return Ok();
+        }
+
+        [HttpDelete("devices/{instanceId}/{deviceId}")]
+        public IActionResult DeleteDevice(string instanceId, string deviceId)
+        {
+            externalWorld.DeleteDevice(instanceId, deviceId);
+            return Ok();
         }
     }
 }

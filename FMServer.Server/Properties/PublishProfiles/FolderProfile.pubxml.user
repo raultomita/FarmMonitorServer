@@ -2,8 +2,8 @@
 <!-- https://go.microsoft.com/fwlink/?LinkID=208121. -->
 <Project>
   <PropertyGroup>
-    <_PublishTargetUrl>D:\Projects\FMServer\FMServer.Server\bin\Release\net10.0\publish\</_PublishTargetUrl>
-    <History>True|2025-12-08T08:37:21.4394387Z||;True|2025-12-08T10:35:13.8562075+02:00||;</History>
+    <_PublishTargetUrl>D:\Projects\FarmMonitorServer\FMServer.Server\bin\Release\net10.0\publish\</_PublishTargetUrl>
+    <History>True|2025-12-22T12:41:53.5216098Z||;True|2025-12-22T14:15:21.8066979+02:00||;True|2025-12-09T10:03:59.7124079+02:00||;True|2025-12-08T22:26:28.9254558+02:00||;True|2025-12-08T10:37:21.4394387+02:00||;True|2025-12-08T10:35:13.8562075+02:00||;</History>
     <LastFailureDetails />
   </PropertyGroup>
 </Project>

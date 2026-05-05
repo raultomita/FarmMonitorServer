@@ -49,6 +49,14 @@ namespace FMServer.Server.Database
             
         }
 
+        public void SaveDevice(string instanceId, string deviceId, Dictionary<string, string> fields)
+        {
+        }
+
+        public void DeleteDevice(string instanceId, string deviceId)
+        {
+        }
+
         public async Task SubscribeAsync(Action<RedisChannel, RedisValue> subscriptionHandler)
         {
             
