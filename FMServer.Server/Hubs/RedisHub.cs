@@ -18,10 +18,10 @@ namespace FMServer.Server.Hubs
         public override async Task OnConnectedAsync()
         {
             await Clients.Caller.SendAsync("heartbeats", externalWorld.GetHashFields("heartbeat").Select(h=> new {
-                hostName = h.fieldName,
-                latestDate = h.value,
-                isDead = (DateTime.Now - DateTime.ParseExact(h.value, "dd.MM.yy HH:mm:ss", CultureInfo.InvariantCulture)).Minutes > 10 })
-                .ToList());            
+                hostName = h.Name,
+                latestDate = h.Value,
+                isDead = (DateTime.Now - DateTime.ParseExact(h.Value, "dd.MM.yy HH:mm:ss", CultureInfo.InvariantCulture)).Minutes > 10 })
+                .ToList());
             await base.OnConnectedAsync();
         }
     }

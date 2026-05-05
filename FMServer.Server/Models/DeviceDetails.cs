@@ -17,7 +17,7 @@ namespace FMServer.Server.Models
         public List<string> MappedWith { get; }
         
         public string DeviceId { get; }
-        public (string fieldName, string value)[] Fields { get; set; }
+        public DeviceField[]? Fields { get; set; }
         public List<string> Messages { get; }
     }
 }

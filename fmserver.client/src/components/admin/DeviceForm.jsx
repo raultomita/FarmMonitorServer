@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 
 const DEVICE_SCHEMAS = {
     switch: [
@@ -116,76 +117,74 @@ export function DeviceForm({ instances, supportedTypes, supportedLocations, devi
 
     const schema = DEVICE_SCHEMAS[type] || [];
 
-    return (
-        <div className="modal-backdrop" onClick={onClose}>
-            <div className="modal-dialog card" onClick={e => e.stopPropagation()}>
-                <div className="card-body">
-                    <h5 className="card-title">{isEdit ? `Edit ${device.deviceId}` : 'Add Device'}</h5>
+    return createPortal(
+        <div className="modal-backdrop" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+            <div className="modal-dialog">
+                <h5>{isEdit ? `Edit — ${device.deviceId}` : 'Add Device'}</h5>
 
-                    <form onSubmit={handleSubmit}>
-                        <div className="form-group mb-2">
-                            <label>Device ID</label>
-                            <input
-                                className="form-control"
-                                value={deviceId}
-                                onChange={e => setDeviceId(e.target.value)}
-                                disabled={isEdit}
-                                required
-                            />
+                <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <label>Device ID</label>
+                        <input
+                            className="form-control"
+                            value={deviceId}
+                            onChange={e => setDeviceId(e.target.value)}
+                            disabled={isEdit}
+                            required
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Instance (host)</label>
+                        <select className="form-control" value={selectedInstance} onChange={e => setSelectedInstance(e.target.value)}>
+                            {instances.map(inst => (
+                                <option key={inst.instanceId} value={inst.instanceId}>{inst.instanceId}</option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div className="form-group">
+                        <label>Type</label>
+                        <select className="form-control" value={type} onChange={e => setType(e.target.value)}>
+                            {supportedTypes.map(t => <option key={t} value={t}>{t}</option>)}
+                        </select>
+                    </div>
+
+                    {schema.map(f => (
+                        <div key={f.name} className="form-group">
+                            <label>{f.label}{f.required ? ' *' : ''}</label>
+                            {f.type === 'select' ? (
+                                <select className="form-control" value={fields[f.name] || ''} onChange={e => handleFieldChange(f.name, e.target.value)}>
+                                    <option value="">— select —</option>
+                                    {f.options.map(o => <option key={o} value={o}>{o}</option>)}
+                                </select>
+                            ) : f.type === 'location' ? (
+                                <select className="form-control" value={fields[f.name] || ''} onChange={e => handleFieldChange(f.name, e.target.value)}>
+                                    <option value="">— select —</option>
+                                    {supportedLocations.map(l => <option key={l} value={l}>{l}</option>)}
+                                </select>
+                            ) : (
+                                <input
+                                    className="form-control"
+                                    type={f.type === 'number' ? 'number' : 'text'}
+                                    value={fields[f.name] || ''}
+                                    placeholder={f.placeholder || ''}
+                                    onChange={e => handleFieldChange(f.name, e.target.value)}
+                                />
+                            )}
                         </div>
+                    ))}
 
-                        <div className="form-group mb-2">
-                            <label>Instance (host)</label>
-                            <select className="form-control" value={selectedInstance} onChange={e => setSelectedInstance(e.target.value)}>
-                                {instances.map(inst => (
-                                    <option key={inst.instanceId} value={inst.instanceId}>{inst.instanceId}</option>
-                                ))}
-                            </select>
-                        </div>
+                    {error && <div className="modal-error">{error}</div>}
 
-                        <div className="form-group mb-2">
-                            <label>Type</label>
-                            <select className="form-control" value={type} onChange={e => setType(e.target.value)}>
-                                {supportedTypes.map(t => <option key={t} value={t}>{t}</option>)}
-                            </select>
-                        </div>
-
-                        {schema.map(f => (
-                            <div key={f.name} className="form-group mb-2">
-                                <label>{f.label}{f.required ? ' *' : ''}</label>
-                                {f.type === 'select' ? (
-                                    <select className="form-control" value={fields[f.name] || ''} onChange={e => handleFieldChange(f.name, e.target.value)}>
-                                        <option value="">— select —</option>
-                                        {f.options.map(o => <option key={o} value={o}>{o}</option>)}
-                                    </select>
-                                ) : f.type === 'location' ? (
-                                    <select className="form-control" value={fields[f.name] || ''} onChange={e => handleFieldChange(f.name, e.target.value)}>
-                                        <option value="">— select —</option>
-                                        {supportedLocations.map(l => <option key={l} value={l}>{l}</option>)}
-                                    </select>
-                                ) : (
-                                    <input
-                                        className="form-control"
-                                        type={f.type === 'number' ? 'number' : 'text'}
-                                        value={fields[f.name] || ''}
-                                        placeholder={f.placeholder || ''}
-                                        onChange={e => handleFieldChange(f.name, e.target.value)}
-                                    />
-                                )}
-                            </div>
-                        ))}
-
-                        {error && <div className="alert alert-danger">{error}</div>}
-
-                        <div className="d-flex gap-2 mt-3">
-                            <button type="submit" className="btn btn-primary" disabled={saving}>
-                                {saving ? 'Saving…' : 'Save'}
-                            </button>
-                            <button type="button" className="btn btn-secondary" onClick={onClose}>Cancel</button>
-                        </div>
-                    </form>
-                </div>
+                    <div className="modal-form-actions">
+                        <button type="submit" className="modal-btn-save" disabled={saving}>
+                            {saving ? 'Saving…' : 'Save'}
+                        </button>
+                        <button type="button" className="modal-btn-cancel" onClick={onClose}>Cancel</button>
+                    </div>
+                </form>
             </div>
         </div>
-    );
+    , document.body);
 }

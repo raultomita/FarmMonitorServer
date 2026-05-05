@@ -1,4 +1,5 @@
 ﻿using StackExchange.Redis;
+using FMServer.Server.Models;
 
 namespace FMServer.Server.Database
 {
@@ -29,7 +30,7 @@ namespace FMServer.Server.Database
             return new List<string>();
         }
 
-        public (string fieldName, string value)[] GetHashFields(string key)
+        public DeviceField[] GetHashFields(string key)
         {
             return [];
         }

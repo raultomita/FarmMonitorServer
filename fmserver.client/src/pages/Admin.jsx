@@ -6,7 +6,7 @@ import { DeviceForm } from '../components/admin/DeviceForm';
 function Admin() {
     const [loading, setLoading] = useState(true);
     const [systemOverview, setSystemOverview] = useState(null);
-    const [formState, setFormState] = useState(null); // null = closed, { device?, instanceId? } = open
+    const [formState, setFormState] = useState(null);
 
     const loadOverview = useCallback(() => {
         setLoading(true);
@@ -42,39 +42,56 @@ function Admin() {
         }
     }
 
-    if (loading) return <p><em>Loading...</em></p>;
-    if (!systemOverview) return <p>Error loading system overview.</p>;
+    if (loading) return (
+        <div className="admin-loading">
+            <em>Loading…</em>
+        </div>
+    );
+
+    if (!systemOverview) return <p className="admin-error">Error loading system overview.</p>;
 
     return (
-        <div className="systemOverview">
-            <div className="d-flex justify-content-between align-items-center mb-3">
-                <h1>System overview</h1>
-                <button className="btn btn-primary" onClick={() => setFormState({})}>+ Add Device</button>
+        <>
+            <div className="mainHeader">
+                <span className="brand">Admin</span>
+                <button className="admin-add-btn" onClick={() => setFormState({})}>+ Add Device</button>
             </div>
 
-            <Messages header="System errors" messages={systemOverview.messages} />
+            <div className="admin-body">
+                <Messages header="System errors" messages={systemOverview.messages} />
 
-            <div>
-                {systemOverview.instances.map(instance =>
-                    <div key={instance.instanceId} className="instancesDetails">
-                        <h2>mapped :: {instance.instanceId}</h2>
-                        {instance.devices.map(device =>
-                            <DeviceDetails
-                                key={device.deviceId}
-                                {...device}
-                                instanceId={instance.instanceId}
-                                onEdit={handleEdit}
-                                onDelete={handleDelete}
-                            />
-                        )}
-                    </div>
-                )}
-            </div>
+                {systemOverview.instances.map(instance => (
+                    <section key={instance.instanceId} className="admin-section">
+                        <div className="admin-section-header">
+                            <span className="admin-section-badge mapped">mapped</span>
+                            <h2 className="admin-section-title">{instance.instanceId}</h2>
+                        </div>
+                        <div className="admin-device-grid">
+                            {instance.devices.map(device => (
+                                <DeviceDetails
+                                    key={device.deviceId}
+                                    {...device}
+                                    instanceId={instance.instanceId}
+                                    onEdit={handleEdit}
+                                    onDelete={handleDelete}
+                                />
+                            ))}
+                        </div>
+                    </section>
+                ))}
 
-            <div className="unmapped">
-                <h2>unmapped :: unknown</h2>
-                {systemOverview.unmapped.map(device =>
-                    <DeviceDetails key={device.deviceId} {...device} />
+                {systemOverview.unmapped.length > 0 && (
+                    <section className="admin-section">
+                        <div className="admin-section-header">
+                            <span className="admin-section-badge unmapped">unmapped</span>
+                            <h2 className="admin-section-title">unknown</h2>
+                        </div>
+                        <div className="admin-device-grid">
+                            {systemOverview.unmapped.map(device => (
+                                <DeviceDetails key={device.deviceId} {...device} />
+                            ))}
+                        </div>
+                    </section>
                 )}
             </div>
 
@@ -89,8 +106,9 @@ function Admin() {
                     onClose={() => setFormState(null)}
                 />
             )}
-        </div>
+        </>
     );
 }
 
 export default Admin;
+

@@ -86,7 +86,7 @@ namespace FMServer.Server.Controllers
                 if (device.Value.Fields == null)
                 {
                     device.Value.Messages.Add("This has no fields.");
-                    device.Value.Fields = new (string fieldName, string value)[0];
+                    device.Value.Fields = Array.Empty<DeviceField>();
                     hasValidationErrors = true;
                 }
 
@@ -107,34 +107,33 @@ namespace FMServer.Server.Controllers
                     foreach (var field in device.Fields)
                     {
                         int gpio;
-                        if (field.fieldName.ToLower().Contains("gpio"))
+                        if (field.Name.ToLower().Contains("gpio"))
                         {
-                            if (Int32.TryParse(field.value, out gpio))
+                            if (Int32.TryParse(field.Value, out gpio))
                             {
                                 if (gpios.Contains(gpio))
                                 {
-                                    device.Messages.Add($"GPIO {field.value} int field {field.fieldName} is duplicated.");
+                                    device.Messages.Add($"GPIO {field.Value} int field {field.Name} is duplicated.");
                                     hasValidationErrors = true;
                                 }
                                 gpios.Add(gpio);
                             }
                             else
                             {
-                                device.Messages.Add($"GPIO {field.value} from field {field.fieldName} cannot be converted in int.");
+                                device.Messages.Add($"GPIO {field.Value} from field {field.Name} cannot be converted in int.");
                                 hasValidationErrors = true;
-
                             }
                         }
 
-                        if (String.Compare(field.fieldName, "type", true) == 0 && !supportedTypes.Contains(field.value))
+                        if (String.Compare(field.Name, "type", true) == 0 && !supportedTypes.Contains(field.Value))
                         {
-                            device.Messages.Add($"type {field.value} is not supported.");
+                            device.Messages.Add($"type {field.Value} is not supported.");
                             hasValidationErrors = true;
                         }
 
-                        if (String.Compare(field.fieldName, "location", true) == 0 && !supportedLocations.Contains(field.value))
+                        if (String.Compare(field.Name, "location", true) == 0 && !supportedLocations.Contains(field.Value))
                         {
-                            device.Messages.Add($"location {field.value} is not supported.");
+                            device.Messages.Add($"location {field.Value} is not supported.");
                             hasValidationErrors = true;
                         }
                     }

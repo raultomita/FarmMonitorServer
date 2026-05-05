@@ -7,7 +7,7 @@ export function Messages({ header, messages }) {
 
     return (
         <div className="messagesHeader alert alert-danger">
-            {header && <strong>{header}</strong>}
+            {header && <strong>{header}: </strong>}
             {messages.map((message, index) => (
                 <span key={index}>{message}</span>
             ))}

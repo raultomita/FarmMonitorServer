@@ -1,6 +1,7 @@
 ﻿using StackExchange.Redis;
 using Microsoft.AspNetCore.SignalR;
 using FMServer.Server.Hubs;
+using FMServer.Server.Models;
 
 namespace FMServer.Server.Database
 {
@@ -79,9 +80,9 @@ namespace FMServer.Server.Database
             return keys.Where(key => key != StatusHashKey).Select(key => (string)key).ToList();
         }
 
-        public (string fieldName, string value)[] GetHashFields(string key)
+        public DeviceField[] GetHashFields(string key)
         {
-            return database.HashGetAll(key).Select(hf => ((string)hf.Name, (string)hf.Value)).ToArray();
+            return database.HashGetAll(key).Select(hf => new DeviceField((string)hf.Name, (string)hf.Value)).ToArray();
         }
 
         public List<string> GetInstanceDeviceIds(string key)
