@@ -38,6 +38,9 @@ body {
 
 .app-main {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 52px);
 }
 
 /* ══════════════════════════════════════════════════
@@ -47,6 +50,8 @@ body {
     display: flex;
     flex-direction: column;
     width: 100%;
+    flex: 1;
+    min-height: calc(100vh - 52px);
 }
 
 .home-loading {
@@ -55,31 +60,20 @@ body {
     color: #64748b;
 }
 
-/* Filter bar — two rows */
+/* Filter bar — single scrollable row */
 .home-filters {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 10px;
     background: #fff;
     border-bottom: 1px solid #e2e8f0;
-}
-
-.home-filters-top {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 10px 6px;
-    border-bottom: 1px solid #f1f5f9;
-}
-
-.home-filters-locations {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 10px 8px;
     overflow-x: auto;
     scrollbar-width: none;
+    flex-shrink: 0;
 }
-.home-filters-locations::-webkit-scrollbar { display: none; }
+.home-filters::-webkit-scrollbar { display: none; }
 
 /* icon-only circle */
 .filter-btn {
@@ -101,13 +95,13 @@ body {
     color: #fff;
 }
 
-/* "All" and "On" buttons keep text */
-.filter-btn-text {
-    gap: 5px;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.82em;
-    font-weight: 700;
+/* icon-only rounded pill */
+.filter-btn-round {
+    width: 44px;
+    height: 36px;
+    border-radius: 18px;
+    padding: 0 6px;
+    gap: 3px;
 }
 
 /* icon-only square/round */
@@ -139,8 +133,16 @@ body {
     font-weight: 800;
     line-height: 1;
 }
+.filter-btn-badge.filter-btn-badge-zero {
+    background: #cbd5e1;
+    color: #94a3b8;
+}
 .filter-btn.On.active .filter-btn-badge {
     background: #fff;
+    color: #f97316;
+}
+.filter-btn.On.active .filter-btn-badge.filter-btn-badge-zero {
+    background: rgba(255,255,255,0.5);
     color: #f97316;
 }
 
@@ -192,13 +194,27 @@ body {
 .conn-dot.ok  .conn-dot-label  { color: #16a34a; }
 .conn-dot.err .conn-dot-label  { color: #dc2626; }
 
-/* On filter active state */
+/* All button — ghost style, never heavy */
+.filter-btn.All {
+    border-color: #94a3b8;
+    color: #94a3b8;
+}
+.filter-btn.All.active {
+    border-color: #64748b;
+    color: #64748b;
+    background: transparent;
+}
+.filter-btn.All:hover {
+    border-color: #475569;
+    color: #475569;
+}
+
 .filter-btn.On.active {
     background: #f97316;
     border-color: #f97316;
     color: #fff;
 }
-.filter-btn.On:not(.active):not(.filter-btn-empty) {
+.filter-btn.On:not(.active) {
     border-color: #f97316;
     color: #f97316;
 }
@@ -210,6 +226,7 @@ body {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 0;
+    align-content: start;
 }
 /* Outer tile — colored shell, no border */
 .device-tile {

@@ -11,6 +11,16 @@ const LOCATION_FILTERS = [
     { type: 'Garden',      symbol: 'fa-leaf',        label: 'Garden' },
 ];
 
+const LOCATION_BG = {
+    'Bedroom':     '#d4e3c4',
+    'Bathroom':    '#c7dff7',
+    'Kitchen':     '#fde4bb',
+    'Living-room': '#f9f099',
+    'Lobby':       '#ddd8f8',
+    'Garden':      '#b8f0cb',
+};
+const DEFAULT_BG = '#dde3ec';
+
 function Home({ onRegisterDeviceHandler }) {
     const [devices, setDevices] = useState([]);
     const [activeFilter, setActiveFilter] = useState('All');
@@ -49,21 +59,22 @@ function Home({ onRegisterDeviceHandler }) {
         return devices.filter(d => d.location === activeFilter);
     }, [devices, activeFilter]);
 
+    const bgColor = useMemo(() => {
+        const last = filteredDevices[filteredDevices.length - 1];
+        return last ? (LOCATION_BG[last.location] ?? DEFAULT_BG) : DEFAULT_BG;
+    }, [filteredDevices]);
+
     if (loading) return <div className="home-loading"><em>Loading devices…</em></div>;
 
     return (
-        <div className="home-page">
+        <div className="home-page" style={{ background: bgColor }}>
             <div className="home-filters">
-                <div className="home-filters-top">
-                    <FilterButton type="All" label="All" symbol="fa-th-large" state={activeFilter} onClick={handleFilter} />
-                    <FilterButton type="On" label="On" state={activeFilter} onClick={handleFilter} count={onCount} />
-                </div>
-                <div className="home-filters-locations">
-                    {LOCATION_FILTERS.filter(f => activeLocations.has(f.type)).map(f => (
-                        <FilterButton key={f.type} type={f.type} label={f.label} symbol={f.symbol}
-                            state={activeFilter} onClick={handleFilter} />
-                    ))}
-                </div>
+                <FilterButton type="All" label="All" symbol="fa-th-large" state={activeFilter} onClick={handleFilter} />
+                <FilterButton type="On" label="On" state={activeFilter} onClick={handleFilter} count={onCount} />
+                {LOCATION_FILTERS.filter(f => activeLocations.has(f.type)).map(f => (
+                    <FilterButton key={f.type} type={f.type} label={f.label} symbol={f.symbol}
+                        state={activeFilter} onClick={handleFilter} />
+                ))}
             </div>
 
             <div className="home-device-grid">
