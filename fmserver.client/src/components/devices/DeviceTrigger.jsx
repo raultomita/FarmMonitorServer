@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
 
-const LOCATION_EMOJI = {
-    Bedroom: '🛏',
-    Bathroom: '🚿',
-    Kitchen: '🍳',
-    'Living-room': '📺',
-    Lobby: '🚪',
-    Garden: '🌱',
+const LOCATION_ICON = {
+    Bedroom:      'fa-bed',
+    Bathroom:     'fa-bath',
+    Kitchen:      'fa-cutlery',
+    'Living-room':'fa-television',
+    Lobby:        'fa-archive',
+    Garden:       'fa-leaf',
 };
 
 const useTimeAgo = (timeStamp) => {
     const [msg, setMsg] = useState('');
-
     useEffect(() => {
         const calc = () => {
             const s = Math.floor((Date.now() - Date.parse(timeStamp)) / 1000);
@@ -24,7 +23,6 @@ const useTimeAgo = (timeStamp) => {
         const id = setInterval(() => setMsg(calc()), 60000);
         return () => clearInterval(id);
     }, [timeStamp]);
-
     return msg;
 };
 
@@ -41,7 +39,7 @@ async function toggle(id, setIsBusy) {
     }
 }
 
-export function DeviceTrigger({ id, display, location, state, timeStamp, googleType }) {
+export function DeviceTrigger({ id, display, location, state, timeStamp }) {
     const [isBusy, setIsBusy] = useState(false);
     const timeAgo = useTimeAgo(timeStamp);
     const isOn = state === '1';
@@ -49,38 +47,21 @@ export function DeviceTrigger({ id, display, location, state, timeStamp, googleT
     useEffect(() => { setIsBusy(false); }, [id, state, timeStamp]);
 
     return (
-        <button
-            className={`device-card ${isOn ? 'on' : 'off'} ${location}`}
-            onClick={() => toggle(id, setIsBusy)}
-            disabled={isBusy}
-        >
-            <span className="device-card-location">{LOCATION_EMOJI[location] || '📦'}</span>
-            <span className="device-card-name">{display}</span>
-            <span className="device-card-icon">
-                {isBusy
-                    ? <i className="fa fa-circle-o-notch fa-spin" />
-                    : <i className={`fa fa-power-off ${isOn ? 'on' : ''}`} />
-                }
-            </span>
-            <span className="device-card-time">{timeAgo}</span>
-        </button>
-    );
-}
-
-export function ActiveDevice({ id, display, location, state }) {
-    const [isBusy, setIsBusy] = useState(false);
-
-    useEffect(() => { setIsBusy(false); }, [id, state]);
-
-    return (
-        <button
-            className={`active-device-pill ${location}`}
-            onClick={() => toggle(id, setIsBusy)}
-            disabled={isBusy}
-        >
-            <span>{LOCATION_EMOJI[location] || '📦'}</span>
-            <span>{display}</span>
-            {isBusy && <i className="fa fa-circle-o-notch fa-spin" />}
-        </button>
+        <div className={`device-tile ${location}`}>
+            <button
+                className={`device-btn ${isOn ? 'on' : 'off'} ${location}`}
+                onClick={() => toggle(id, setIsBusy)}
+                disabled={isBusy}
+            >
+                <span className="device-btn-emoji"><i className={`fa ${LOCATION_ICON[location] || 'fa-plug'}`} aria-hidden="true" /></span>
+                <span className="device-btn-name">{display}</span>
+                <span className="device-btn-icon">
+                    {isBusy
+                        ? <i className="fa fa-circle-o-notch fa-spin" />
+                        : <i className="fa fa-power-off" />
+                    }
+                </span>
+            </button>
+        </div>
     );
 }

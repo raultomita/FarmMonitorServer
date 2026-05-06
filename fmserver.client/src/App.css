@@ -29,22 +29,12 @@ body {
     letter-spacing: 0.02em;
 }
 
-.app-nav-links {
+.app-nav-status {
     display: flex;
-    gap: 4px;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
 }
-
-.app-nav-link {
-    color: #94a3b8;
-    text-decoration: none;
-    padding: 6px 14px;
-    border-radius: 6px;
-    font-size: 0.9em;
-    font-weight: 500;
-    transition: background 0.15s, color 0.15s;
-}
-.app-nav-link:hover { background: rgba(255,255,255,0.08); color: #e2e8f0; }
-.app-nav-link.active { background: rgba(255,255,255,0.12); color: #fff; }
 
 .app-main {
     width: 100%;
@@ -65,18 +55,31 @@ body {
     color: #64748b;
 }
 
-/* Filter row */
+/* Filter bar — two rows */
 .home-filters {
     display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 10px;
-    overflow-x: auto;
-    scrollbar-width: none;
+    flex-direction: column;
     background: #fff;
     border-bottom: 1px solid #e2e8f0;
 }
-.home-filters::-webkit-scrollbar { display: none; }
+
+.home-filters-top {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 10px 6px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.home-filters-locations {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+.home-filters-locations::-webkit-scrollbar { display: none; }
 
 /* icon-only circle */
 .filter-btn {
@@ -98,8 +101,8 @@ body {
     color: #fff;
 }
 
-/* "All" button keeps text */
-.filter-btn-all {
+/* "All" and "On" buttons keep text */
+.filter-btn-text {
     gap: 5px;
     padding: 6px 12px;
     border-radius: 20px;
@@ -113,6 +116,32 @@ body {
     height: 36px;
     border-radius: 10px;
     padding: 0;
+}
+
+/* dimmed when count = 0 */
+.filter-btn-empty {
+    opacity: 0.35;
+    cursor: default;
+}
+
+/* count badge on On button */
+.filter-btn-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    border-radius: 9px;
+    background: #f97316;
+    color: #fff;
+    font-size: 0.75em;
+    font-weight: 800;
+    line-height: 1;
+}
+.filter-btn.On.active .filter-btn-badge {
+    background: #fff;
+    color: #f97316;
 }
 
 /* Location accent colours — inactive: tinted border + icon; active: filled */
@@ -131,7 +160,7 @@ body {
 .filter-btn.Garden.active      { background: #16a34a; border-color: #16a34a; color: #fff; }
 
 /* Status indicators in filter row */
-.filter-status {
+.app-nav-status {
     display: flex;
     align-items: center;
     gap: 6px;
@@ -145,7 +174,7 @@ body {
     gap: 3px;
     font-size: 0.65em;
     font-weight: 700;
-    color: #64748b;
+    color: #94a3b8;
 }
 .hb-dot-circle, .conn-dot-circle {
     width: 7px;
@@ -163,117 +192,95 @@ body {
 .conn-dot.ok  .conn-dot-label  { color: #16a34a; }
 .conn-dot.err .conn-dot-label  { color: #dc2626; }
 
-/* Active devices strip */
-.home-active-strip {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 12px;
-    background: #fff8ed;
-    border-bottom: 1px solid #fde68a;
-    flex-wrap: wrap;
+/* On filter active state */
+.filter-btn.On.active {
+    background: #f97316;
+    border-color: #f97316;
+    color: #fff;
+}
+.filter-btn.On:not(.active):not(.filter-btn-empty) {
+    border-color: #f97316;
+    color: #f97316;
 }
 
-.home-active-label {
-    font-size: 0.72em;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: #92400e;
-    letter-spacing: 0.06em;
-}
+/* Groups container — removed, using flat grid */
 
-.active-device-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 5px 12px;
-    border-radius: 20px;
-    border: none;
-    font-size: 0.82em;
-    font-weight: 600;
-    cursor: pointer;
-    transition: opacity 0.15s;
-    background: #fef3c7;
-    color: #78350f;
-}
-.active-device-pill:hover { opacity: 0.8; }
-.active-device-pill:disabled { opacity: 0.6; cursor: not-allowed; }
-
-/* Location group */
-.home-device-groups { padding: 8px 10px 20px; }
-
-.home-location-group { margin-bottom: 16px; }
-
-.home-location-header {
-    font-size: 0.8em;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #64748b;
-    margin: 0 0 8px 2px;
-}
-
-/* Device grid */
+/* Device grid — no gap, cards tile flush */
 .home-device-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-    gap: 8px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
 }
+/* Outer tile — colored shell, no border */
+.device-tile {
+    padding: 6px;
+    box-sizing: border-box;
+    display: flex;
+}
+.device-tile             { background: #dde3ec; }
+.device-tile.Bedroom     { background: #d4e3c4; }
+.device-tile.Bathroom    { background: #c7dff7; }
+.device-tile.Kitchen     { background: #fde4bb; }
+.device-tile.Living-room { background: #f9f099; }
+.device-tile.Lobby       { background: #ddd8f8; }
+.device-tile.Garden      { background: #b8f0cb; }
 
-/* Device card */
-.device-card {
+/* Inner button — always white, rounded, holds all content */
+.device-btn {
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    padding: 12px 8px 10px;
-    border-radius: 14px;
-    border: 2px solid transparent;
-    cursor: pointer;
-    transition: transform 0.15s, box-shadow 0.15s;
-    text-align: center;
-    font-family: inherit;
-    gap: 6px;
-    min-height: 110px;
-}
-.device-card:hover { transform: translateY(-2px); }
-.device-card:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-
-.device-card.off {
+    justify-content: center;
+    gap: 3px;
+    padding: 7px 4px 6px;
+    border: none;
+    border-radius: 10px;
     background: #fff;
-    border-color: #e2e8f0;
-    color: #64748b;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    color: #334155;
+    cursor: pointer;
+    font-family: inherit;
+    min-height: 64px;
+    transition: filter 0.12s;
 }
-.device-card.on {
-    background: #1e293b;
-    border-color: #1e293b;
-    color: #fff;
-    box-shadow: 0 4px 14px rgba(30,41,59,0.35);
-}
+.device-btn:hover  { filter: brightness(0.95); }
+.device-btn:active { filter: brightness(0.88); }
+.device-btn:disabled { opacity: 0.55; cursor: not-allowed; filter: none; }
 
-.device-card-location { font-size: 1.4em; line-height: 1; }
-.device-card-name {
-    font-size: 0.76em;
+/* Location emoji / icon — always location accent colour */
+.device-btn-emoji { font-size: 1.1em; line-height: 1; }
+.device-btn.Bedroom     .device-btn-emoji { color: #6b7c5a; }
+.device-btn.Bathroom    .device-btn-emoji { color: #2e6da4; }
+.device-btn.Kitchen     .device-btn-emoji { color: #b45309; }
+.device-btn.Living-room .device-btn-emoji { color: #7c6f1e; }
+.device-btn.Lobby       .device-btn-emoji { color: #6b5b7b; }
+.device-btn.Garden      .device-btn-emoji { color: #16a34a; }
+
+/* Name */
+.device-btn-name {
+    font-size: 0.70em;
     font-weight: 600;
     line-height: 1.2;
     word-break: break-word;
-}
-.device-card-icon { font-size: 1.1em; }
-.device-card-icon .fa-power-off       { color: #cbd5e1; }
-.device-card-icon .fa-power-off.on    { color: #4ade80; }
-.device-card-time {
-    font-size: 0.65em;
-    opacity: 0.6;
+    text-align: center;
 }
 
-/* Location accent colour on ON state */
-.device-card.on.Bedroom     { background: #4a5c38; border-color: #4a5c38; }
-.device-card.on.Bathroom    { background: #1a4a7a; border-color: #1a4a7a; }
-.device-card.on.Kitchen     { background: #7c3a0e; border-color: #7c3a0e; }
-.device-card.on.Living-room { background: #5a4e10; border-color: #5a4e10; }
-.device-card.on.Lobby       { background: #4a3a5c; border-color: #4a3a5c; }
-.device-card.on.Garden      { background: #0f5c2a; border-color: #0f5c2a; }
+/* Power icon — green when on, hidden when off */
+.device-btn-icon { font-size: 1em; }
+.device-btn.off .device-btn-icon { visibility: hidden; }
+.device-btn.on  .device-btn-icon { color: #16a34a; }
+.device-btn.on {
+    border: 2px solid #16a34a;
+    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15), 0 2px 6px rgba(22,163,74,0.12);
+}
+
+/* remove per-location overrides — all ON icons are green */
+
+/* Time */
+.device-btn-time {
+    font-size: 0.60em;
+    opacity: 0.55;
+}
 
 /* ══════════════════════════════════════════════════
    Admin Page
