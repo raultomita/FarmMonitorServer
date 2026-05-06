@@ -17,7 +17,7 @@ function App() {
         <Router>
             <Notifications onDeviceReceived={onDeviceReceived || (() => {})} onStatusChange={setConnStatus} />
             <nav className="app-nav">
-                <span className="app-nav-brand">🌿 FarmMonitor</span>
+                <span className="app-nav-brand">🌿 Home</span>
                 <div className="app-nav-status">
                     {connStatus.heartbeats.map(hb => (
                         <span key={hb.hostName} className={`hb-dot ${hb.isDead ? 'dead' : 'alive'}`} title={hb.hostName}>
